@@ -24,7 +24,7 @@ class Favorite extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  "Favorite",
+                  "Favsadsdsdorite",
                   style: TextStyle(
                     color: Colors.yellow,
                   ),
