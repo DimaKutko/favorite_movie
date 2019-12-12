@@ -29,7 +29,7 @@ class NavigationBotom extends StatelessWidget {
                 color: Colors.yellow,
                 iconSize: 35,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/');
+                  Navigator.pushNamed(context, '/account');
                 },
               ),
               Text(
