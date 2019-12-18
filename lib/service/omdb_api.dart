@@ -12,7 +12,7 @@ class MovieServiceImpl implements MovieService {
   @override
   Future<Movie> getMovieInfo() async{
     Uri uri = Uri.http('www.omdbapi.com','', {
-      't': 'titanic',
+      't': 'Iron Man',
       'apikey': 'fdb692c9'
     });
     http.Response response = await http.get(uri);

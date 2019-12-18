@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 
-
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -119,6 +118,10 @@ class WMovie extends StatefulWidget {
 
 class _WMovieState extends State<WMovie> {
   String _data;
+  String _title;
+  String _year;
+  String _imdbid;
+  String _poster;
 
   @override
   void initState() {
@@ -128,9 +131,14 @@ class _WMovieState extends State<WMovie> {
 
   void _getData() async {
     final list = await MovieServiceImpl().getMovieInfo();
-    
+
     setState(() {
       _data = jsonEncode(list);
+      _title = jsonEncode(list.title);
+      _year = jsonEncode(list.year);
+      _imdbid = jsonEncode(list.imdbid);
+      _poster = jsonEncode(list.poster);
+      _poster.trim();
     });
   }
 
@@ -146,7 +154,29 @@ class _WMovieState extends State<WMovie> {
       return CircularProgressIndicator();
     } else {
       return Center(
-        child: Text(jsonEncode(_data), style: TextStyle(color: Colors.white),),
+        child: Column(
+          children: <Widget>[
+            Image.network('$_poster', 
+            height: 200,
+            width: 60,),
+            Text(
+              "Title: $_poster ",
+              style: TextStyle(color: Colors.white, fontSize: 8 ),
+            ),
+            Text(
+              "Title: $_title ",
+              style: TextStyle(color: Colors.white, fontSize: 23 ),
+            ),
+            Text(
+              "Year: $_year",
+              style: TextStyle(color: Colors.white, fontSize: 23),
+            ),
+            Text(
+              "IMDB id: $_imdbid",
+              style: TextStyle(color: Colors.white, fontSize: 23),
+            ),
+          ],
+        ),
       );
     }
   }

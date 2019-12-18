@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Movie {
   final String title;
   final String year;
@@ -29,9 +27,5 @@ class Movie {
       'imdbid': imdbid,
       'poster': poster,
     };
-  }
-  @override
-  String toString() {
-    return jsonEncode(toJson());
   }
 }
