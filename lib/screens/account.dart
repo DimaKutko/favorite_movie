@@ -17,8 +17,8 @@ class Account extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    Colors.grey[900],
-                    Colors.grey[700],
+                    Colors.black,
+                    Colors.grey[800],
                   ],
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 
+
 class Favorite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class Favorite extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    Colors.grey[900],
-                    Colors.grey[700],
+                    Colors.black,
+                    Colors.grey[800],
                   ],
                 ),
               ),

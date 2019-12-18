@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 
-class Search extends StatelessWidget {
+class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class Search extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  'Window search',
+                  'Window settings',
                   style: TextStyle(color: Colors.yellow),
                 ),
               ),

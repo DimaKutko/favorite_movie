@@ -3,13 +3,16 @@ import 'package:favorite_movie/main.dart';
 import 'package:favorite_movie/screens/favorite.dart';
 import 'package:favorite_movie/screens/search.dart';
 import 'package:favorite_movie/screens/account.dart';
-
+import 'package:favorite_movie/screens/settings.dart';
+import 'package:favorite_movie/screens/dashboard.dart';
 
 final routes = {
   '/': (BuildContext context) => MyApp(),
   '/account': (BuildContext context) => Account(),
   '/favorite': (BuildContext context) => Favorite(),
   '/search': (BuildContext context) => Search(),
+  '/settings': (BuildContext context) => Settings(),
+  '/dashboard': (BuildContext context) => Dashboard(),
 };
 
 class NavigationBotom extends StatelessWidget {
@@ -18,11 +21,29 @@ class NavigationBotom extends StatelessWidget {
     return Container(
       height: 70,
       width: double.infinity,
-      color: Colors.grey[900],
+      color: Colors.black,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Column( //кнопка акаунт
+          Column(
+            //кнопка панели
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.dashboard),
+                color: Colors.yellow,
+                iconSize: 35,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/dashboard');
+                },
+              ),
+              Text(
+                'Dashboard',
+                style: TextStyle(color: Colors.yellow),
+              ),
+            ],
+          ),
+          Column(
+            //кнопка акаунт
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.account_circle),
@@ -38,7 +59,8 @@ class NavigationBotom extends StatelessWidget {
               ),
             ],
           ),
-          Column( //кнопка избранное
+          Column(
+            //кнопка избранное
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.star),
@@ -54,7 +76,8 @@ class NavigationBotom extends StatelessWidget {
               ),
             ],
           ),
-          Column( //кнопка поиск
+          Column(
+            //кнопка поиск
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
@@ -70,6 +93,23 @@ class NavigationBotom extends StatelessWidget {
               ),
             ],
           ),
+          Column(
+            //кнопка настройки
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.settings),
+                color: Colors.yellow,
+                iconSize: 35,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/settings');
+                },
+              ),
+              Text(
+                'Settings',
+                style: TextStyle(color: Colors.yellow),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -81,7 +121,7 @@ class Top extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 20,
-      color: Colors.grey[700],
+      color: Colors.grey[800],
     );
   }
 }
