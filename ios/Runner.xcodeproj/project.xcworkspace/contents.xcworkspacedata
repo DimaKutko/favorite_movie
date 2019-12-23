@@ -2,6 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Runner.xcodeproj">
+      location = "self:"
+      assignedFileDataType = "com.apple.xcode.resultbundle">
    </FileRef>
 </Workspace>

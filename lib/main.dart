@@ -23,18 +23,10 @@ class _MyAppState extends State<MyApp> {
       seconds: 2,
       navigateAfterSeconds: Dashboard(),
       image: Image.asset('assets/images/logo.png'),
-      gradientBackground: LinearGradient(
-        colors: [
-          Colors.black,
-          Colors.grey[800],
-        ],
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      ),
+      backgroundColor: Color.fromRGBO(39, 78, 78, 1),
       photoSize: 180.0,
-      styleTextUnderTheLoader: TextStyle(),
-      onClick: () => print("Flutter Egypt"),
       loaderColor: Colors.yellow,
+      
     );
   }
 }

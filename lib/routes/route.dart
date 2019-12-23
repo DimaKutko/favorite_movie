@@ -21,7 +21,10 @@ class NavigationBotom extends StatelessWidget {
     return Container(
       height: 70,
       width: double.infinity,
-      color: Colors.black,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+        color: Colors.white,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -30,7 +33,7 @@ class NavigationBotom extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.dashboard),
-                color: Colors.yellow,
+                color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
                   Navigator.pushNamed(context, '/dashboard');
@@ -38,7 +41,9 @@ class NavigationBotom extends StatelessWidget {
               ),
               Text(
                 'Dashboard',
-                style: TextStyle(color: Colors.yellow),
+                style: TextStyle(
+                  color: Color.fromRGBO(39, 58, 58, 1),
+                ),
               ),
             ],
           ),
@@ -47,7 +52,7 @@ class NavigationBotom extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.account_circle),
-                color: Colors.yellow,
+                color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
                   Navigator.pushNamed(context, '/account');
@@ -55,7 +60,9 @@ class NavigationBotom extends StatelessWidget {
               ),
               Text(
                 'Account',
-                style: TextStyle(color: Colors.yellow),
+                style: TextStyle(
+                  color: Color.fromRGBO(39, 58, 58, 1),
+                ),
               ),
             ],
           ),
@@ -64,7 +71,7 @@ class NavigationBotom extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.star),
-                color: Colors.yellow,
+                color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
                   Navigator.pushNamed(context, '/favorite');
@@ -72,7 +79,9 @@ class NavigationBotom extends StatelessWidget {
               ),
               Text(
                 'Favorite',
-                style: TextStyle(color: Colors.yellow),
+                style: TextStyle(
+                  color: Color.fromRGBO(39, 58, 58, 1),
+                ),
               ),
             ],
           ),
@@ -81,7 +90,7 @@ class NavigationBotom extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.search),
-                color: Colors.yellow,
+                color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
                   Navigator.pushNamed(context, '/search');
@@ -89,7 +98,9 @@ class NavigationBotom extends StatelessWidget {
               ),
               Text(
                 'Search',
-                style: TextStyle(color: Colors.yellow),
+                style: TextStyle(
+                  color: Color.fromRGBO(39, 58, 58, 1),
+                ),
               ),
             ],
           ),
@@ -98,7 +109,7 @@ class NavigationBotom extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.settings),
-                color: Colors.yellow,
+                color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
                   Navigator.pushNamed(context, '/settings');
@@ -106,7 +117,7 @@ class NavigationBotom extends StatelessWidget {
               ),
               Text(
                 'Settings',
-                style: TextStyle(color: Colors.yellow),
+                style: TextStyle(color: Color.fromRGBO(39, 58, 58, 1)),
               ),
             ],
           ),
@@ -121,7 +132,6 @@ class Top extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 20,
-      color: Colors.grey[800],
     );
   }
 }

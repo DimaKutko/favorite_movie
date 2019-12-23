@@ -6,22 +6,12 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
+      backgroundColor: Color.fromRGBO(39, 78, 78, 1),
       body: Column(
         children: <Widget>[
           Top(),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Colors.black,
-                    Colors.grey[800],
-                  ],
-                ),
-              ),
               child: Center(
                 child: Text(
                   'Window settings',
