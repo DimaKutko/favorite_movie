@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 
-class Account extends StatelessWidget {
+class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,10 +14,8 @@ class Account extends StatelessWidget {
             child: Container(
               child: Center(
                 child: Text(
-                  "Account",
-                  style: TextStyle(
-                    color: Colors.yellow,
-                  ),
+                  'Window settings',
+                  style: TextStyle(color: Colors.yellow),
                 ),
               ),
             ),

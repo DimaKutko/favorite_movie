@@ -1,6 +1,7 @@
+import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:favorite_movie/screens/account.dart';
+
 import 'package:favorite_movie/routes/route.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -12,7 +13,7 @@ void main() => runApp(MaterialApp(
 
 class MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() =>  _MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -20,16 +21,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return SplashScreen(
       seconds: 2,
-      navigateAfterSeconds:  Account(),
+      navigateAfterSeconds: Dashboard(),
       image: Image.asset('assets/images/logo.png'),
-      gradientBackground:  LinearGradient(
-          colors: [Colors.grey[700], Colors.grey[900]],
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,),
+      backgroundColor: Color.fromRGBO(39, 78, 78, 1),
       photoSize: 180.0,
-      styleTextUnderTheLoader: TextStyle(),
-      onClick: () => print("Flutter Egypt"),
       loaderColor: Colors.yellow,
+      
     );
   }
 }
