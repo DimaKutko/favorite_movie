@@ -2,7 +2,6 @@ import 'package:favorite_movie/service/omdb_api.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-
 class Movie {
   final String title;
   final String year;
@@ -35,14 +34,14 @@ class Movie {
   }
 }
 
-class WMovie extends StatefulWidget {
-  WMovie({Key key}) : super(key: key);
+class SearchMovieDowoland extends StatefulWidget {
+  SearchMovieDowoland({Key key}) : super(key: key);
 
   @override
-  _WMovieState createState() => _WMovieState();
+  _SearchMovieDowolandState createState() => _SearchMovieDowolandState();
 }
 
-class _WMovieState extends State<WMovie> {
+class _SearchMovieDowolandState extends State<SearchMovieDowoland> {
   String _data;
   String _title;
   String _year;
@@ -79,26 +78,54 @@ class _WMovieState extends State<WMovie> {
     if (_data == null) {
       return CircularProgressIndicator();
     } else {
-      return Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 15,),
-            Image.network('$_poster', 
-            width: 140,),
-            SizedBox(height: 5,),
-            Text(
-              "Title: $_title ",
-              style: TextStyle(color: Colors.white, fontSize: 23 ),
-            ),
-            Text(
-              "Year: $_year",
-              style: TextStyle(color: Colors.white, fontSize: 23),
-            ),
-            Text(
-              "IMDB id: $_imdbid",
-              style: TextStyle(color: Colors.white, fontSize: 23),
-            ),
-          ],
+      return Expanded(
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            color: Color.fromRGBO(39, 58, 58, 1),
+          ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 6,
+                child: Image.network(
+                  '$_poster',
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '$_title',
+                      style: TextStyle(fontSize: 27, color: Colors.white),
+                    ),
+                    Text(
+                      'Year: $_year    IMDBid: $_imdbid',
+                      style: TextStyle(fontSize: 22, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          color: Color.fromRGBO(253, 191, 80, 1),
+                          iconSize: 35,
+                          onPressed: () {},
+                        ),
+                      ],
+                    )),
+              )
+            ],
+          ),
         ),
       );
     }

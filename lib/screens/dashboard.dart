@@ -60,7 +60,7 @@ class _DashboardFState extends State<DashboardF> {
                     child: Container(
                       height: double.infinity,
                       width: double.infinity,
-                      child: WMovie(),
+                      
                     ),
                   ),
                 ],

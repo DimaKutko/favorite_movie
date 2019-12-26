@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
+import 'package:favorite_movie/Models/movie_info.dart';
 
 
 class Search extends StatelessWidget {
@@ -14,7 +15,7 @@ class Search extends StatelessWidget {
           Expanded(
             child: Container(
               child: Center(
-                child: FormSearch(),
+                child: MyCalulateArea(),
               ),
             ),
           ),
@@ -28,83 +29,65 @@ class Search extends StatelessWidget {
   }
 }
 
-class FormSearch extends StatefulWidget {
+class MyCalulateArea extends StatefulWidget {
   @override
-  _FormSearchState createState() => _FormSearchState();
+  State<StatefulWidget> createState() => MyCalulateAreaState();
 }
 
-class _FormSearchState extends State<FormSearch> {
-  final formKey = GlobalKey<FormState>();
-  String _name, name1;
+class MyCalulateAreaState extends State<MyCalulateArea> {
+  final _formKey = GlobalKey<FormState>(); // for TextForm
+  String _name, name;
 
-  @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Form(
-            child: Column(
-      children: <Widget>[
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          'Title movie:',
-          style: TextStyle(fontSize: 23.0, color: Colors.white),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Center(
-          child: Container(
-            width: 330,
-            child: Form(
-              key: formKey,
-              child: TextFormField(
-                decoration: InputDecoration(
+    return Form(
+        key: _formKey,
+        child: Column(children: [
+          SizedBox(height: 10.0),
+          Text(
+            'Search movie:',
+            style: TextStyle(color: Colors.white, fontSize: 23),
+          ),
+          SizedBox(height: 10.0),
+          Container(
+            width: 380,
+            child: TextFormField(
+              style: TextStyle(color: Colors.red),
+              decoration: InputDecoration(
                   labelText: 'Title movie',
-                  fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                            borderSide: new BorderSide(
-                              color: Colors.red,
-                            ),
-                          )
-                ),
-                validator: (input) => !input.contains(null) ? 'Enter title movie':null,
-                onSaved: (input) => _name = input,
-              ),
+                    borderSide: new BorderSide(),
+                  )),
+              validator: (value) {
+                if (value.isEmpty) return 'Enter title movie';
+              },
             ),
           ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Container(
-          width: 200,
-          
-          child: CupertinoButton(
+          SizedBox(height: 10.0),
+          CupertinoButton(
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                setState(() {
+                  if (_name is String) name = _name;
+                });
+              }
+            },
             child: Text(
               'Search',
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
             ),
-            color: Color.fromRGBO(39, 58, 58, 1),
-            onPressed: _inputname,
+            color: Color.fromRGBO(253, 191, 80, 1),
           ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Text(
-          '$_name',
-          style: TextStyle(color: Colors.red),
-        ),
-      ],
-    )
-  )
-);
-}
-void _inputname() async{
-  if(formKey.currentState.validate()){
-      formKey.currentState.save();
-      print(_name);
+          SizedBox(height: 10.0),
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                SizedBox(width: 10.0),
+                SearchMovieDowoland(),
+                SizedBox(width: 10.0),
+              ],
+            ),
+          ),
+          SizedBox(height: 10.0),
+        ]));
   }
-}
 }
