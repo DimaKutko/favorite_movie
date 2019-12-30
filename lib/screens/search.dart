@@ -1,8 +1,9 @@
-import 'package:favorite_movie/models/movie_info.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
-import 'package:provider/provider.dart';
+import 'package:favorite_movie/service/omdb_api.dart';
+
 
 class Search extends StatelessWidget {
   @override
@@ -16,7 +17,7 @@ class Search extends StatelessWidget {
           Expanded(
             child: Container(
               child: Center(
-                child:SearchF(),
+                child: SearchF(),
               ),
             ),
           ),
@@ -31,6 +32,8 @@ class Search extends StatelessWidget {
 }
 
 class SearchF extends StatefulWidget {
+  SearchF({Key key}) : super(key: key);
+
   @override
   _SearchFState createState() => _SearchFState();
 }
@@ -38,9 +41,93 @@ class SearchF extends StatefulWidget {
 class _SearchFState extends State<SearchF> {
   final _formKey = GlobalKey<FormState>(); // for TextForm
 
-  Widget build(BuildContext context) {
-    final name = Provider.of<GlobalName>(context);
+  MovieServiceImpl search = MovieServiceImpl();
 
+  String name;
+  String _title;
+  String _year;
+  String _imdbid;
+  String _poster;
+
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
+
+  void _getData() async {
+    final list = await MovieServiceImpl().getMovieInfo();
+
+    setState(() {
+      _title = jsonDecode(jsonEncode(list.title));
+      _year = jsonDecode(jsonEncode(list.year));
+      _imdbid = jsonDecode(jsonEncode(list.imdbid));
+      _poster = jsonDecode(jsonEncode(list.poster));
+      _poster.trim();
+      print("$_year");
+    });
+  }
+
+  Widget _buildData() {
+    if (_title == 'null') {
+      return null;
+    } else {
+      return Expanded(
+        child: Container(
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            border:
+                Border.all(color: Color.fromRGBO(253, 191, 80, 1), width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            color: Color.fromRGBO(39, 58, 58, 1),
+          ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 6,
+                child: Image.network(
+                  '$_poster',
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '$_title',
+                      style: TextStyle(fontSize: 27, color: Colors.white),
+                    ),
+                    Text(
+                      'Year: $_year    IMDBid: $_imdbid',
+                      style: TextStyle(fontSize: 22, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          color: Color.fromRGBO(253, 191, 80, 1),
+                          iconSize: 35,
+                          onPressed: () {},
+                        ),
+                      ],
+                    )),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 15),
         child: Column(children: <Widget>[
@@ -64,15 +151,21 @@ class _SearchFState extends State<SearchF> {
               child: Container(
                 padding: EdgeInsets.only(left: 5, right: 5),
                 child: TextFormField(
-                  cursorColor: Color.fromRGBO(253, 191, 80, 1),
-                  style: TextStyle(
-                    color: Color.fromRGBO(253, 191, 80, 1),
-                  ),
-                  autofocus: false,
-                  validator: (value) {
-                    if (value.isEmpty) return 'Enter title movie';
-                  },
-                ),
+                    keyboardType: TextInputType.text,
+                    cursorColor: Color.fromRGBO(253, 191, 80, 1),
+                    style: TextStyle(
+                      color: Color.fromRGBO(253, 191, 80, 1),
+                    ),
+                    autofocus: false,
+                    validator: (value) {
+                      if (value.isEmpty) return 'Enater name movie: ';
+                      try {
+                        name = value;
+                      } catch (e) {
+                        name = null;
+                        return e.toString();
+                      }
+                    }),
               ),
             ),
           )),
@@ -89,7 +182,7 @@ class _SearchFState extends State<SearchF> {
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   setState(() {
-                    if (name is String) {}
+                    if (name is String) search.name = name;
                   });
                 }
               },
@@ -98,8 +191,12 @@ class _SearchFState extends State<SearchF> {
           SizedBox(
             height: 15,
           ),
+          Text(
+            '$name',
+            style: TextStyle(fontSize: 45, color: Colors.white),
+          ),
           Container(
-            child: SearchMovieDowoland(),
+            child: _buildData(),
           ),
         ]));
   }
