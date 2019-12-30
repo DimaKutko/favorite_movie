@@ -1,6 +1,7 @@
 import 'package:favorite_movie/service/omdb_api.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:provider/provider.dart';
 
 class Movie {
   final String title;
@@ -80,8 +81,10 @@ class _SearchMovieDowolandState extends State<SearchMovieDowoland> {
     } else {
       return Expanded(
         child: Container(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
+            border: Border.all(
+                    color: Color.fromRGBO(253, 191, 80, 1), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             color: Color.fromRGBO(39, 58, 58, 1),
           ),
@@ -129,5 +132,20 @@ class _SearchMovieDowolandState extends State<SearchMovieDowoland> {
         ),
       );
     }
+  }
+}
+
+
+class GlobalName with ChangeNotifier {
+  String _name;
+
+  GlobalName(this._name);
+
+  getCounter() => _name;
+  setCounter(String name) => _name = name;
+
+  void search() {
+    
+    notifyListeners();
   }
 }

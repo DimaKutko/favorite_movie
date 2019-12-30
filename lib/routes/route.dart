@@ -5,6 +5,8 @@ import 'package:favorite_movie/screens/search.dart';
 import 'package:favorite_movie/screens/account.dart';
 import 'package:favorite_movie/screens/settings.dart';
 import 'package:favorite_movie/screens/dashboard.dart';
+import 'package:flutter/cupertino.dart';
+
 
 final routes = {
   '/': (BuildContext context) => MyApp(),
@@ -32,11 +34,14 @@ class NavigationBotom extends StatelessWidget {
             //кнопка панели
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.dashboard),
+                icon: Icon(CupertinoIcons.home),
                 color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/dashboard');
+                  Navigator.pushNamed(
+                    context,
+                    '/dashboard',
+                  );
                 },
               ),
               Text(
@@ -51,7 +56,7 @@ class NavigationBotom extends StatelessWidget {
             //кнопка акаунт
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.account_circle),
+                icon: Icon(CupertinoIcons.person_solid),
                 color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
@@ -70,7 +75,7 @@ class NavigationBotom extends StatelessWidget {
             //кнопка избранное
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.star),
+                icon: Icon(CupertinoIcons.heart_solid),
                 color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
@@ -89,7 +94,7 @@ class NavigationBotom extends StatelessWidget {
             //кнопка поиск
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.search),
+                icon: Icon(CupertinoIcons.search),
                 color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
@@ -108,7 +113,7 @@ class NavigationBotom extends StatelessWidget {
             //кнопка настройки
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.settings),
+                icon: Icon(CupertinoIcons.settings_solid),
                 color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {

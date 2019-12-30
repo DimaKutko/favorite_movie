@@ -1,13 +1,14 @@
+import 'package:favorite_movie/models/movie_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
-import 'package:favorite_movie/Models/movie_info.dart';
-
+import 'package:provider/provider.dart';
 
 class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false, //keyboard top !!!
       backgroundColor: Color.fromRGBO(39, 78, 78, 1),
       body: Column(
         children: <Widget>[
@@ -15,7 +16,7 @@ class Search extends StatelessWidget {
           Expanded(
             child: Container(
               child: Center(
-                child: MyCalulateArea(),
+                child:SearchF(),
               ),
             ),
           ),
@@ -29,65 +30,77 @@ class Search extends StatelessWidget {
   }
 }
 
-class MyCalulateArea extends StatefulWidget {
+class SearchF extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => MyCalulateAreaState();
+  _SearchFState createState() => _SearchFState();
 }
 
-class MyCalulateAreaState extends State<MyCalulateArea> {
+class _SearchFState extends State<SearchF> {
   final _formKey = GlobalKey<FormState>(); // for TextForm
-  String _name, name;
 
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Column(children: [
-          SizedBox(height: 10.0),
-          Text(
-            'Search movie:',
-            style: TextStyle(color: Colors.white, fontSize: 23),
+    final name = Provider.of<GlobalName>(context);
+
+    return Container(
+        padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 15),
+        child: Column(children: <Widget>[
+          Center(
+            child: Text(
+              'Search movie:',
+              style: TextStyle(color: Colors.white, fontSize: 23),
+            ),
           ),
           SizedBox(height: 10.0),
-          Container(
-            width: 380,
-            child: TextFormField(
-              style: TextStyle(color: Colors.red),
-              decoration: InputDecoration(
-                  labelText: 'Title movie',
-                  border: new OutlineInputBorder(
-                    borderSide: new BorderSide(),
-                  )),
-              validator: (value) {
-                if (value.isEmpty) return 'Enter title movie';
+          Center(
+              child: Form(
+            key: _formKey,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(39, 58, 58, 1),
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(
+                    color: Color.fromRGBO(253, 191, 80, 1), width: 1),
+              ),
+              child: Container(
+                padding: EdgeInsets.only(left: 5, right: 5),
+                child: TextFormField(
+                  cursorColor: Color.fromRGBO(253, 191, 80, 1),
+                  style: TextStyle(
+                    color: Color.fromRGBO(253, 191, 80, 1),
+                  ),
+                  autofocus: false,
+                  validator: (value) {
+                    if (value.isEmpty) return 'Enter title movie';
+                  },
+                ),
+              ),
+            ),
+          )),
+          SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: CupertinoButton(
+              child: Text(
+                'Search',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+              color: Color.fromRGBO(253, 191, 80, 1),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  setState(() {
+                    if (name is String) {}
+                  });
+                }
               },
             ),
           ),
-          SizedBox(height: 10.0),
-          CupertinoButton(
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                setState(() {
-                  if (_name is String) name = _name;
-                });
-              }
-            },
-            child: Text(
-              'Search',
-              style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-            ),
-            color: Color.fromRGBO(253, 191, 80, 1),
+          SizedBox(
+            height: 15,
           ),
-          SizedBox(height: 10.0),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                SizedBox(width: 10.0),
-                SearchMovieDowoland(),
-                SizedBox(width: 10.0),
-              ],
-            ),
+          Container(
+            child: SearchMovieDowoland(),
           ),
-          SizedBox(height: 10.0),
         ]));
   }
 }
