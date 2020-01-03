@@ -64,7 +64,6 @@ class _SearchFState extends State<SearchF> {
       year = jsonDecode(jsonEncode(list.year));
       imdbid = jsonDecode(jsonEncode(list.imdbid));
       poster = jsonDecode(jsonEncode(list.poster));
-
       setState(() {});
     }
     ;
@@ -76,53 +75,60 @@ class _SearchFState extends State<SearchF> {
     } else {
       return Expanded(
         child: Container(
-          padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage('$poster'),
+              fit: BoxFit.fill,
+            ),
             border:
                 Border.all(color: Color.fromRGBO(253, 191, 80, 1), width: 1),
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            color: Color.fromRGBO(39, 58, 58, 1),
           ),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 6,
-                child: Image.network(
-                  '$poster',
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      '$title',
-                      style: TextStyle(fontSize: 27, color: Colors.white),
-                    ),
-                    Text(
-                      'Year: $year    IMDBid: $imdbid',
-                      style: TextStyle(fontSize: 22, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 2,
+          child: Align(
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Color.fromRGBO(1, 1, 1, 1),
+                        Color.fromRGBO(1, 1, 1, 0.1),
+                        Color.fromRGBO(1, 1, 1, 0)
+                      ])),
+              child: Align(
+                alignment: Alignment.bottomCenter,
                 child: Container(
-                    width: double.infinity,
+                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                    height: 100,
+                    decoration: BoxDecoration(
+                      // color: Colors.red,
+                      borderRadius:
+                          BorderRadius.vertical(bottom: Radius.circular(20.0)),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.add),
-                          color: Color.fromRGBO(253, 191, 80, 1),
-                          iconSize: 35,
-                          onPressed: () {},
+                        Expanded(
+                          child: Text(
+                            '$title ($year)',
+                            softWrap: true,
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          ),
                         ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add_circle, size: 32),
+                          color: Colors.white,
+                          onPressed: () {},
+                        )
                       ],
                     )),
-              )
-            ],
+              ),
+            ),
           ),
         ),
       );
@@ -142,55 +148,49 @@ class _SearchFState extends State<SearchF> {
           ),
           SizedBox(height: 10.0),
           Center(
-              child: Form(
-            key: _formKey,
             child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(39, 58, 58, 1),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                    color: Color.fromRGBO(253, 191, 80, 1), width: 1),
-              ),
-              child: Container(
-                padding: EdgeInsets.only(left: 5, right: 5),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  cursorColor: Color.fromRGBO(253, 191, 80, 1),
-                  style: TextStyle(
-                    color: Color.fromRGBO(253, 191, 80, 1),
-                  ),
-                  autofocus: false,
-                  validator: (value) {
-                    if (value.isEmpty) return 'Enater name movie: ';
-                  },
-                  onSaved: (value) {
-                    name = value;
-                  },
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(39, 58, 58, 1),
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                      color: Color.fromRGBO(253, 191, 80, 1), width: 1),
                 ),
-              ),
-            ),
-          )),
-          SizedBox(
-            height: 15,
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      decoration: InputDecoration.collapsed(
+                        hintText: "Enter title movie",
+                        border: InputBorder.none,
+                      ),
+                      enableInteractiveSelection: false,
+                      textInputAction: TextInputAction.done,
+                      autofocus: true,
+                      keyboardType: TextInputType.text,
+                      onFieldSubmitted: (term) {
+                        setState(() {
+                          _getData();
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        });
+                      },
+                      cursorColor: Color.fromRGBO(253, 191, 80, 1),
+                      style: TextStyle(
+                        fontSize: 23,
+                        color: Color.fromRGBO(253, 191, 80, 1),
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) return null;
+                      },
+                      onSaved: (value) {
+                        name = value;
+                      },
+                    ),
+                  ),
+                )),
           ),
-          Center(
-            child: CupertinoButton(
-              child: Text(
-                'Search',
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
-              color: Color.fromRGBO(253, 191, 80, 1),
-              onPressed: () {
-                setState(() {
-                  _getData();
-                  FocusScope.of(context).requestFocus(FocusNode());
-                });
-                //  clossed keyboard
-              },
-            ),
-          ),
           SizedBox(
-            height: 15,
+            height: 10,
           ),
           Container(
             child: _buildData(),
