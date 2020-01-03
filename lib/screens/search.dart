@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 import 'package:favorite_movie/service/omdb_api.dart';
 
-
 class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,13 +40,13 @@ class SearchF extends StatefulWidget {
 class _SearchFState extends State<SearchF> {
   final _formKey = GlobalKey<FormState>(); // for TextForm
 
-  MovieServiceImpl search = MovieServiceImpl();
+  MovieServiceImpl search = MovieServiceImpl('null');
 
   String name;
-  String _title;
-  String _year;
-  String _imdbid;
-  String _poster;
+  String title;
+  String year;
+  String imdbid;
+  String poster;
 
   @override
   void initState() {
@@ -56,20 +55,23 @@ class _SearchFState extends State<SearchF> {
   }
 
   void _getData() async {
-    final list = await MovieServiceImpl().getMovieInfo();
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
 
-    setState(() {
-      _title = jsonDecode(jsonEncode(list.title));
-      _year = jsonDecode(jsonEncode(list.year));
-      _imdbid = jsonDecode(jsonEncode(list.imdbid));
-      _poster = jsonDecode(jsonEncode(list.poster));
-      _poster.trim();
-      print("$_year");
-    });
+      final list = await MovieServiceImpl('$name').getMovieInfo();
+
+      title = jsonDecode(jsonEncode(list.title));
+      year = jsonDecode(jsonEncode(list.year));
+      imdbid = jsonDecode(jsonEncode(list.imdbid));
+      poster = jsonDecode(jsonEncode(list.poster));
+
+      setState(() {});
+    }
+    ;
   }
 
   Widget _buildData() {
-    if (_title == 'null') {
+    if (title == null) {
       return null;
     } else {
       return Expanded(
@@ -86,7 +88,7 @@ class _SearchFState extends State<SearchF> {
               Expanded(
                 flex: 6,
                 child: Image.network(
-                  '$_poster',
+                  '$poster',
                 ),
               ),
               Expanded(
@@ -94,11 +96,11 @@ class _SearchFState extends State<SearchF> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      '$_title',
+                      '$title',
                       style: TextStyle(fontSize: 27, color: Colors.white),
                     ),
                     Text(
-                      'Year: $_year    IMDBid: $_imdbid',
+                      'Year: $year    IMDBid: $imdbid',
                       style: TextStyle(fontSize: 22, color: Colors.white),
                     ),
                   ],
@@ -127,6 +129,7 @@ class _SearchFState extends State<SearchF> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 15),
@@ -151,21 +154,19 @@ class _SearchFState extends State<SearchF> {
               child: Container(
                 padding: EdgeInsets.only(left: 5, right: 5),
                 child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    cursorColor: Color.fromRGBO(253, 191, 80, 1),
-                    style: TextStyle(
-                      color: Color.fromRGBO(253, 191, 80, 1),
-                    ),
-                    autofocus: false,
-                    validator: (value) {
-                      if (value.isEmpty) return 'Enater name movie: ';
-                      try {
-                        name = value;
-                      } catch (e) {
-                        name = null;
-                        return e.toString();
-                      }
-                    }),
+                  keyboardType: TextInputType.text,
+                  cursorColor: Color.fromRGBO(253, 191, 80, 1),
+                  style: TextStyle(
+                    color: Color.fromRGBO(253, 191, 80, 1),
+                  ),
+                  autofocus: false,
+                  validator: (value) {
+                    if (value.isEmpty) return 'Enater name movie: ';
+                  },
+                  onSaved: (value) {
+                    name = value;
+                  },
+                ),
               ),
             ),
           )),
@@ -180,20 +181,16 @@ class _SearchFState extends State<SearchF> {
               ),
               color: Color.fromRGBO(253, 191, 80, 1),
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  setState(() {
-                    if (name is String) search.name = name;
-                  });
-                }
+                setState(() {
+                  _getData();
+                  FocusScope.of(context).requestFocus(FocusNode());
+                });
+                //  clossed keyboard
               },
             ),
           ),
           SizedBox(
             height: 15,
-          ),
-          Text(
-            '$name',
-            style: TextStyle(fontSize: 45, color: Colors.white),
           ),
           Container(
             child: _buildData(),
