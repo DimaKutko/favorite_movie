@@ -1,12 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
-
+import 'package:favorite_movie/service/omdb_api.dart';
 
 class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false, //keyboard top !!!
       backgroundColor: Color.fromRGBO(39, 78, 78, 1),
       body: Column(
         children: <Widget>[
@@ -14,7 +16,7 @@ class Search extends StatelessWidget {
           Expanded(
             child: Container(
               child: Center(
-                child: FormSearch(),
+                child: SearchF(),
               ),
             ),
           ),
@@ -28,83 +30,171 @@ class Search extends StatelessWidget {
   }
 }
 
-class FormSearch extends StatefulWidget {
+class SearchF extends StatefulWidget {
+  SearchF({Key key}) : super(key: key);
+
   @override
-  _FormSearchState createState() => _FormSearchState();
+  _SearchFState createState() => _SearchFState();
 }
 
-class _FormSearchState extends State<FormSearch> {
-  final formKey = GlobalKey<FormState>();
-  String _name, name1;
+class _SearchFState extends State<SearchF> {
+  final _formKey = GlobalKey<FormState>(); // for TextForm
+
+  MovieServiceImpl search = MovieServiceImpl('null');
+
+  String name;
+  String title;
+  String year;
+  String imdbid;
+  String poster;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Form(
-            child: Column(
-      children: <Widget>[
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          'Title movie:',
-          style: TextStyle(fontSize: 23.0, color: Colors.white),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Center(
-          child: Container(
-            width: 330,
-            child: Form(
-              key: formKey,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Title movie',
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                            borderSide: new BorderSide(
-                              color: Colors.red,
-                            ),
-                          )
-                ),
-                validator: (input) => !input.contains(null) ? 'Enter title movie':null,
-                onSaved: (input) => _name = input,
+  void initState() {
+    _getData();
+    super.initState();
+  }
+
+  void _getData() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+
+      final list = await MovieServiceImpl('$name').getMovieInfo();
+
+      title = jsonDecode(jsonEncode(list.title));
+      year = jsonDecode(jsonEncode(list.year));
+      imdbid = jsonDecode(jsonEncode(list.imdbid));
+      poster = jsonDecode(jsonEncode(list.poster));
+      setState(() {});
+    }
+    ;
+  }
+
+  Widget _buildData() {
+    if (title == null) {
+      return null;
+    } else {
+      return Expanded(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage('$poster'),
+              fit: BoxFit.fill,
+            ),
+            border:
+                Border.all(color: Color.fromRGBO(253, 191, 80, 1), width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          child: Align(
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Color.fromRGBO(1, 1, 1, 1),
+                        Color.fromRGBO(1, 1, 1, 0.1),
+                        Color.fromRGBO(1, 1, 1, 0)
+                      ])),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                    height: 100,
+                    decoration: BoxDecoration(
+                      // color: Colors.red,
+                      borderRadius:
+                          BorderRadius.vertical(bottom: Radius.circular(20.0)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            '$title ($year)',
+                            softWrap: true,
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add_circle, size: 32),
+                          color: Colors.white,
+                          onPressed: () {},
+                        )
+                      ],
+                    )),
               ),
             ),
           ),
         ),
-        SizedBox(
-          height: 15,
-        ),
-        Container(
-          width: 200,
-          
-          child: CupertinoButton(
-            child: Text(
-              'Search',
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
-            color: Color.fromRGBO(39, 58, 58, 1),
-            onPressed: _inputname,
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        Text(
-          '$_name',
-          style: TextStyle(color: Colors.red),
-        ),
-      ],
-    )
-  )
-);
-}
-void _inputname() async{
-  if(formKey.currentState.validate()){
-      formKey.currentState.save();
-      print(_name);
+      );
+    }
   }
-}
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 15),
+        child: Column(children: <Widget>[
+          Center(
+            child: Text(
+              'Search movie:',
+              style: TextStyle(color: Colors.white, fontSize: 23),
+            ),
+          ),
+          SizedBox(height: 10.0),
+          Center(
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(39, 58, 58, 1),
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                      color: Color.fromRGBO(253, 191, 80, 1), width: 1),
+                ),
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      decoration: InputDecoration.collapsed(
+                        hintText: "Enter title movie",
+                        border: InputBorder.none,
+                      ),
+                      enableInteractiveSelection: false,
+                      textInputAction: TextInputAction.done,
+                      autofocus: true,
+                      keyboardType: TextInputType.text,
+                      onFieldSubmitted: (term) {
+                        setState(() {
+                          _getData();
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        });
+                      },
+                      cursorColor: Color.fromRGBO(253, 191, 80, 1),
+                      style: TextStyle(
+                        fontSize: 23,
+                        color: Color.fromRGBO(253, 191, 80, 1),
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) return null;
+                      },
+                      onSaved: (value) {
+                        name = value;
+                      },
+                    ),
+                  ),
+                )),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            child: _buildData(),
+          ),
+        ]));
+  }
 }

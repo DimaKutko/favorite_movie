@@ -7,6 +7,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Color.fromRGBO(39, 78, 78, 1),
       body: Column(
         children: <Widget>[
@@ -60,7 +61,7 @@ class _DashboardFState extends State<DashboardF> {
                     child: Container(
                       height: double.infinity,
                       width: double.infinity,
-                      child: WMovie(),
+                      
                     ),
                   ),
                 ],
