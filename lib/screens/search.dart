@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:favorite_movie/screens/addMovie.dart';
+import 'package:favorite_movie/service/favoriteMovieAdd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
@@ -40,12 +42,10 @@ class SearchF extends StatefulWidget {
 class _SearchFState extends State<SearchF> {
   final _formKey = GlobalKey<FormState>(); // for TextForm
 
-  
-
   String name;
+  String imdbid;
   String title;
   String year;
-  String imdbid;
   String poster;
 
   @override
@@ -123,7 +123,13 @@ class _SearchFState extends State<SearchF> {
                         IconButton(
                           icon: Icon(Icons.add_circle, size: 32),
                           color: Colors.white,
-                          onPressed: () {},
+                          onPressed: () {
+                            FavoriteAddMovie(imdbid, title, year, poster).favoriteAddMovie();
+                           /* Navigator.pushNamed(
+                              context,
+                              '/addMovie',
+                            );*/
+                          },
                         )
                       ],
                     )),
@@ -179,7 +185,6 @@ class _SearchFState extends State<SearchF> {
                           FocusScope.of(context).requestFocus(FocusNode());
                         });
                       },
-                      
                       validator: (value) {
                         if (value.isEmpty) return null;
                       },

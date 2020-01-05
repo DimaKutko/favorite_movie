@@ -1,3 +1,4 @@
+import 'package:favorite_movie/screens/addMovie.dart';
 import 'package:flutter/material.dart';
 import 'package:favorite_movie/main.dart';
 import 'package:favorite_movie/screens/favorite.dart';
@@ -7,7 +8,6 @@ import 'package:favorite_movie/screens/settings.dart';
 import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 
-
 final routes = {
   '/': (BuildContext context) => MyApp(),
   '/account': (BuildContext context) => Account(),
@@ -15,6 +15,7 @@ final routes = {
   '/search': (BuildContext context) => Search(),
   '/settings': (BuildContext context) => Settings(),
   '/dashboard': (BuildContext context) => Dashboard(),
+  '/addMovie': (BuildContext context) => AddMovie(),
 };
 
 class NavigationBotom extends StatelessWidget {
@@ -47,7 +48,6 @@ class NavigationBotom extends StatelessWidget {
               Text(
                 'Dashboard',
                 style: TextStyle(
-                  
                   color: Color.fromRGBO(39, 58, 58, 1),
                 ),
               ),

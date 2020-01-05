@@ -17,7 +17,7 @@ class Favorite extends StatelessWidget {
           Top(),
           Expanded(
             child: Container(
-              child: HomePage(),
+              child: FavoriteMovieF(),
             ),
           ),
           Align(
@@ -30,13 +30,13 @@ class Favorite extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+class FavoriteMovieF extends StatefulWidget {
+  FavoriteMovieF({Key key}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  _FavoriteMovieFState createState() => _FavoriteMovieFState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FavoriteMovieFState extends State<FavoriteMovieF> {
   List<FavoriteMovie> _favoritemovie = List<FavoriteMovie>();
 
   Future<List<FavoriteMovie>> getFavoriteMovie() async {
@@ -56,6 +56,33 @@ class _HomePageState extends State<HomePage> {
     }
     return favoritemovie;
   }
+
+// Future<void> _handleClickMe() async {
+//   return showDialog<void>(
+//     context: context,
+//     barrierDismissible: false, // user must tap button!
+//     builder: (BuildContext context) {
+//       return CupertinoAlertDialog(
+//         title: Text('Allow "Maps" to access your location while you use the app?'),
+//         content: Text('Your current location will be displayed on the map and used for directions, nearby search results, and estimated travel times.'),
+//         actions: <Widget>[
+//           CupertinoDialogAction(
+//             child: Text('Don\'t Allow'),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//           CupertinoDialogAction(
+//             child: Text('Allow'),
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
 
 
 
@@ -92,7 +119,7 @@ class _HomePageState extends State<HomePage> {
       ));
     } else {
       return Container(
-        color: Color.fromRGBO(39, 58, 58, 0),
+          color: Color.fromRGBO(39, 58, 58, 0),
           padding: EdgeInsets.only(left: 10, right: 10),
           child: ListView.builder(
             itemCount: _favoritemovie.length,
@@ -110,8 +137,9 @@ class _HomePageState extends State<HomePage> {
               return Dismissible(
                 key: Key(id),
                 onDismissed: (direction) {
-                  // Remove the item from the data source.
+                 // _handleClickMe();
                   setState(() {
+                   // _handleClickMe();
                     FavoriteMovieDel(id).favoriteMovieDel();
                     _favoritemovie.removeAt(index);
                   });
@@ -126,16 +154,14 @@ class _HomePageState extends State<HomePage> {
                   child: Icon(
                     Icons.cancel,
                     size: 23,
+                    color: Colors.black,
                   ),
                 ),
                 child: Column(
-                  
                   children: <Widget>[
                     Container(
-                      
                         height: 200,
                         decoration: BoxDecoration(
-                          
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),

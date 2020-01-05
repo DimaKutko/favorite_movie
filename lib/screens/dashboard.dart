@@ -14,7 +14,7 @@ class Dashboard extends StatelessWidget {
           Expanded(
             child: Container(
               child: Center(
-                child: DashboardF(),
+                child: null,
               ),
             ),
           ),
@@ -28,71 +28,4 @@ class Dashboard extends StatelessWidget {
   }
 }
 
-class DashboardF extends StatefulWidget {
-  @override
-  _DashboardFState createState() => _DashboardFState();
-}
-
-class _DashboardFState extends State<DashboardF> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          // первый ряд
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: double.infinity,
-                      color: Colors.yellow,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: Row(
-                children: <Widget>[
-                  //второй ряд
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: double.infinity,
-                      color: Colors.green,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: double.infinity,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
