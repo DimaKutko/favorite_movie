@@ -47,6 +47,7 @@ class NavigationBotom extends StatelessWidget {
               Text(
                 'Dashboard',
                 style: TextStyle(
+                  
                   color: Color.fromRGBO(39, 58, 58, 1),
                 ),
               ),

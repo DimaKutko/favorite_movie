@@ -1,4 +1,3 @@
-import 'package:favorite_movie/models/movie_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';

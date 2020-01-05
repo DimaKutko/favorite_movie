@@ -8,6 +8,8 @@ abstract class MovieService {
 }
 
 class MovieServiceImpl implements MovieService {
+
+  @override
   String namemovie;
   MovieServiceImpl(this.namemovie);
 
@@ -21,7 +23,7 @@ class MovieServiceImpl implements MovieService {
         return Movie.fromJson(json.decode(response.body));
       } catch (e) {
         print(e);
-        print('ERROR !!!');
+        
       }
     } else {
       throw HttpException('Error');

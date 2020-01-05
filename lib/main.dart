@@ -1,7 +1,6 @@
 import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:favorite_movie/routes/route.dart';
 import 'package:splashscreen/splashscreen.dart';
 

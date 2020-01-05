@@ -168,17 +168,18 @@ class _SearchFState extends State<SearchF> {
                       textInputAction: TextInputAction.done,
                       autofocus: true,
                       keyboardType: TextInputType.text,
+                      cursorColor: Color.fromRGBO(253, 191, 80, 1),
+                      style: TextStyle(
+                        fontSize: 23,
+                        color: Color.fromRGBO(253, 191, 80, 1),
+                      ),
                       onFieldSubmitted: (term) {
                         setState(() {
                           _getData();
                           FocusScope.of(context).requestFocus(FocusNode());
                         });
                       },
-                      cursorColor: Color.fromRGBO(253, 191, 80, 1),
-                      style: TextStyle(
-                        fontSize: 23,
-                        color: Color.fromRGBO(253, 191, 80, 1),
-                      ),
+                      
                       validator: (value) {
                         if (value.isEmpty) return null;
                       },
