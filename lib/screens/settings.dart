@@ -13,10 +13,7 @@ class Settings extends StatelessWidget {
           Expanded(
             child: Container(
               child: Center(
-                child: Text(
-                  'Window settings',
-                  style: TextStyle(color: Colors.yellow),
-                ),
+                child: null,
               ),
             ),
           ),
@@ -29,3 +26,5 @@ class Settings extends StatelessWidget {
     );
   }
 }
+
+

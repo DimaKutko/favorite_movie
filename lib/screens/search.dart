@@ -40,7 +40,7 @@ class SearchF extends StatefulWidget {
 class _SearchFState extends State<SearchF> {
   final _formKey = GlobalKey<FormState>(); // for TextForm
 
-  MovieServiceImpl search = MovieServiceImpl('null');
+  
 
   String name;
   String title;
