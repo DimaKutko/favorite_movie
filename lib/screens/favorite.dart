@@ -57,35 +57,6 @@ class _FavoriteMovieFState extends State<FavoriteMovieF> {
     return favoritemovie;
   }
 
-// Future<void> _handleClickMe() async {
-//   return showDialog<void>(
-//     context: context,
-//     barrierDismissible: false, // user must tap button!
-//     builder: (BuildContext context) {
-//       return CupertinoAlertDialog(
-//         title: Text('Allow "Maps" to access your location while you use the app?'),
-//         content: Text('Your current location will be displayed on the map and used for directions, nearby search results, and estimated travel times.'),
-//         actions: <Widget>[
-//           CupertinoDialogAction(
-//             child: Text('Don\'t Allow'),
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//           ),
-//           CupertinoDialogAction(
-//             child: Text('Allow'),
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }
-
-
-
   @override //viewed true or falsr icons
   Widget viewedF(bool viewed) {
     if (viewed == false) {

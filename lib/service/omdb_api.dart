@@ -8,14 +8,14 @@ abstract class MovieService {
 }
 
 class MovieServiceImpl implements MovieService {
-
   @override
   String namemovie;
-  MovieServiceImpl(this.namemovie);
+  String years;
+  MovieServiceImpl(this.namemovie, this.years);
 
   Future<Movie> getMovieInfo() async {
-    Uri uri = Uri.http(
-        'www.omdbapi.com', '', {'t': '$namemovie', 'apikey': 'fdb692c9'});
+    Uri uri = Uri.http('www.omdbapi.com', '',
+        {'t': '$namemovie', 'apikey': 'fdb692c9', 'y': '$years'});
 
     http.Response response = await http.get(uri);
     if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -23,7 +23,6 @@ class MovieServiceImpl implements MovieService {
         return Movie.fromJson(json.decode(response.body));
       } catch (e) {
         print(e);
-        
       }
     } else {
       throw HttpException('Error');

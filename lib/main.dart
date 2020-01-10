@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() => runApp(CupertinoApp(
+void main() => runApp(MaterialApp(
   
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -12,6 +12,7 @@ void main() => runApp(CupertinoApp(
     ));
 
 class MyApp extends StatefulWidget {
+  
   @override
   _MyAppState createState() => _MyAppState();
 }

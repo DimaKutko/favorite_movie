@@ -1,21 +1,18 @@
-import 'package:favorite_movie/screens/addMovie.dart';
+
 import 'package:flutter/material.dart';
 import 'package:favorite_movie/main.dart';
 import 'package:favorite_movie/screens/favorite.dart';
 import 'package:favorite_movie/screens/search.dart';
-import 'package:favorite_movie/screens/account.dart';
 import 'package:favorite_movie/screens/settings.dart';
 import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 
 final routes = {
   '/': (BuildContext context) => MyApp(),
-  '/account': (BuildContext context) => Account(),
   '/favorite': (BuildContext context) => Favorite(),
-  '/search': (BuildContext context) => Search(),
+  '/search': (BuildContext context) => SearchF(),
   '/settings': (BuildContext context) => Settings(),
   '/dashboard': (BuildContext context) => Dashboard(),
-  '/addMovie': (BuildContext context) => AddMovie(),
 };
 
 class NavigationBotom extends StatelessWidget {
@@ -47,25 +44,6 @@ class NavigationBotom extends StatelessWidget {
               ),
               Text(
                 'Dashboard',
-                style: TextStyle(
-                  color: Color.fromRGBO(39, 58, 58, 1),
-                ),
-              ),
-            ],
-          ),
-          Column(
-            //кнопка акаунт
-            children: <Widget>[
-              IconButton(
-                icon: Icon(CupertinoIcons.person_solid),
-                color: Color.fromRGBO(39, 58, 58, 1),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/account');
-                },
-              ),
-              Text(
-                'Account',
                 style: TextStyle(
                   color: Color.fromRGBO(39, 58, 58, 1),
                 ),

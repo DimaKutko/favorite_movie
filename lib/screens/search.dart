@@ -1,36 +1,9 @@
 import 'dart:convert';
-import 'package:favorite_movie/screens/addMovie.dart';
 import 'package:favorite_movie/service/favoriteMovieAdd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 import 'package:favorite_movie/service/omdb_api.dart';
-
-class Search extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false, //keyboard top !!!
-      backgroundColor: Color.fromRGBO(39, 78, 78, 1),
-      body: Column(
-        children: <Widget>[
-          Top(),
-          Expanded(
-            child: Container(
-              child: Center(
-                child: SearchF(),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: NavigationBotom(),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class SearchF extends StatefulWidget {
   SearchF({Key key}) : super(key: key);
@@ -42,11 +15,14 @@ class SearchF extends StatefulWidget {
 class _SearchFState extends State<SearchF> {
   final _formKey = GlobalKey<FormState>(); // for TextForm
 
+  var fruits = ['banana', 'pineapple', 'watermelon'];
+
   String name;
   String imdbid;
   String title;
-  String year;
+  String year; // year from search
   String poster;
+  String yearS; // year to search
 
   @override
   void initState() {
@@ -58,7 +34,7 @@ class _SearchFState extends State<SearchF> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      final list = await MovieServiceImpl('$name').getMovieInfo();
+      final list = await MovieServiceImpl('$name', '$yearS').getMovieInfo();
 
       title = jsonDecode(jsonEncode(list.title));
       year = jsonDecode(jsonEncode(list.year));
@@ -124,11 +100,9 @@ class _SearchFState extends State<SearchF> {
                           icon: Icon(Icons.add_circle, size: 32),
                           color: Colors.white,
                           onPressed: () {
-                            FavoriteAddMovie(imdbid, title, year, poster).favoriteAddMovie();
-                           /* Navigator.pushNamed(
-                              context,
-                              '/addMovie',
-                            );*/
+                            //FavoriteAddMovie(imdbid, title, year, poster)
+                              //  .favoriteAddMovie();
+                            
                           },
                         )
                       ],
@@ -141,66 +115,137 @@ class _SearchFState extends State<SearchF> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 15),
-        child: Column(children: <Widget>[
-          Center(
-            child: Text(
-              'Search movie:',
-              style: TextStyle(color: Colors.white, fontSize: 23),
-            ),
-          ),
-          SizedBox(height: 10.0),
-          Center(
-            child: Container(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(39, 58, 58, 1),
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                      color: Color.fromRGBO(253, 191, 80, 1), width: 1),
-                ),
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      decoration: InputDecoration.collapsed(
-                        hintText: "Enter title movie",
-                        border: InputBorder.none,
-                      ),
-                      enableInteractiveSelection: false,
-                      textInputAction: TextInputAction.done,
-                      autofocus: true,
-                      keyboardType: TextInputType.text,
-                      cursorColor: Color.fromRGBO(253, 191, 80, 1),
-                      style: TextStyle(
-                        fontSize: 23,
-                        color: Color.fromRGBO(253, 191, 80, 1),
-                      ),
-                      onFieldSubmitted: (term) {
-                        setState(() {
-                          _getData();
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        });
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) return null;
-                      },
-                      onSaved: (value) {
-                        name = value;
-                      },
+  _showDatePicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: 300,
+            child: CupertinoPicker(
+              backgroundColor: Color.fromRGBO(39, 78, 78, 1),
+              itemExtent: 50, //height of each item
+              looping: true,
+              children: List<Widget>.generate(71, (int index) {
+                return Center(
+                  child: Text(
+                    '${index + 1950}',
+                    style: TextStyle(
+                      color: Color.fromRGBO(253, 191, 80, 1),
+                      fontSize: 32,
                     ),
                   ),
-                )),
+                );
+              }),
+              onSelectedItemChanged: (int index) {
+                int y = index + 1950;
+                setState(() {
+                  yearS = y.toString();
+                  _getData();
+                });
+              },
+            ),
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomPadding: false, //keyboard top !!!
+      backgroundColor: Color.fromRGBO(39, 78, 78, 1),
+      body: Column(
+        children: <Widget>[
+          Top(),
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Container(
+                    padding: EdgeInsets.only(
+                        left: 15, right: 15, top: 5, bottom: 15),
+                    child: Column(children: <Widget>[
+                      Center(
+                        child: Text(
+                          'Search movie:',
+                          style: TextStyle(color: Colors.white, fontSize: 23),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Center(
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(39, 58, 58, 1),
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: Color.fromRGBO(253, 191, 80, 1),
+                                  width: 1),
+                            ),
+                            child: Container(
+                              height: 50,
+                              child: Row(
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(Icons.calendar_today),
+                                    onPressed: () {
+                                      _showDatePicker(context);
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Form(
+                                      key: _formKey,
+                                      child: TextFormField(
+                                        cursorColor:
+                                            Color.fromRGBO(253, 191, 80, 1),
+                                        enableInteractiveSelection: false,
+                                        textInputAction: TextInputAction.done,
+                                        autofocus: true,
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration.collapsed(
+                                          hintText: "Enter title movie",
+                                          border: InputBorder.none,
+                                        ),
+                                        onFieldSubmitted: (term) {
+                                          print(yearS);
+                                          setState(() {
+                                            _getData();
+                                            FocusScope.of(context)
+                                                .requestFocus(FocusNode());
+                                          });
+                                        },
+                                        style: TextStyle(
+                                          fontSize: 23,
+                                          color:
+                                              Color.fromRGBO(253, 191, 80, 1),
+                                        ),
+                                        validator: (value) {
+                                          if (value.isEmpty) return null;
+                                        },
+                                        onSaved: (value) {
+                                          name = value;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        child: _buildData(),
+                      ),
+                    ])),
+              ),
+            ),
           ),
-          SizedBox(
-            height: 10,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: NavigationBotom(),
           ),
-          Container(
-            child: _buildData(),
-          ),
-        ]));
+        ],
+      ),
+    );
+    ;
   }
 }
