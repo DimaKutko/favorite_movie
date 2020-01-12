@@ -3,6 +3,7 @@ import 'package:favorite_movie/service/favotiteMovieDelete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -59,10 +60,10 @@ class _FavoriteMovieFState extends State<FavoriteMovieF> {
 
   @override //viewed true or falsr icons
   Widget viewedF(bool viewed) {
-    if (viewed == false) {
+    if (viewed == true) {
       return Icon(Icons.check_box,
           size: 20, color: Color.fromRGBO(253, 191, 80, 1));
-    } else {
+    } if(viewed == false) {
       return Icon(
         Icons.check_box_outline_blank,
         size: 20,
@@ -104,6 +105,7 @@ class _FavoriteMovieFState extends State<FavoriteMovieF> {
               bool viewed = _favoritemovie[index].viewed;
               int rating = _favoritemovie[index].rating;
               int timestamp = _favoritemovie[index].timestamp;
+             var date = DateFormat.yMMMd().format( DateTime.fromMicrosecondsSinceEpoch(timestamp*1000));
 
               return Dismissible(
                 key: Key(id),
@@ -251,7 +253,7 @@ class _FavoriteMovieFState extends State<FavoriteMovieF> {
                                       children: <Widget>[
                                         Expanded(
                                           child: Text(
-                                            'Added to: $timestamp',
+                                            'Added to: $date',
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 color: Color.fromRGBO(

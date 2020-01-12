@@ -3,16 +3,22 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class FavoriteAddMovie {
-  String id;
-  String title;
-  String year;
-  String poster;
+  String id, title, year, poster, label;
+  int priority = 0, rating = 0, timestamp = DateTime.now().millisecondsSinceEpoch;
+  bool viewed;
+
+
 
   FavoriteAddMovie(
     this.id,
     this.title,
     this.year,
     this.poster,
+    this.label,
+    this.priority,
+    this.viewed,
+    this.rating,
+
   );
 
   Future favoriteAddMovie() async {
@@ -22,11 +28,11 @@ class FavoriteAddMovie {
       'title': '$title',
       'year': '$year',
       'poster': '$poster',
-      'label': 'my film',
-      'priority': 1,
-      'viewed': false,
-      'rating': 10,
-      'timestamp': 1575473859,
+      'label': '$label',
+      'priority': priority,
+      'viewed': viewed,
+      'rating': rating,
+      'timestamp': timestamp,
     };
     var data = json.encode(body);
 
