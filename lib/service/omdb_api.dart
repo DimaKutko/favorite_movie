@@ -9,11 +9,11 @@ abstract class MovieService {
 
 class MovieServiceImpl implements MovieService {
   @override
-  String namemovie;
-  String years;
+  String namemovie, years;
   MovieServiceImpl(this.namemovie, this.years);
 
   Future<Movie> getMovieInfo() async {
+    
     Uri uri = Uri.http('www.omdbapi.com', '',
         {'t': '$namemovie', 'apikey': 'fdb692c9', 'y': '$years'});
 

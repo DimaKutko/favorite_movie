@@ -1,4 +1,5 @@
 
+import 'package:favorite_movie/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:favorite_movie/main.dart';
 import 'package:favorite_movie/screens/favorite.dart';
@@ -13,6 +14,7 @@ final routes = {
   '/search': (BuildContext context) => SearchF(),
   '/settings': (BuildContext context) => Settings(),
   '/dashboard': (BuildContext context) => Dashboard(),
+  '/login': (BuildContext context) => Login(),
 };
 
 class NavigationBotom extends StatelessWidget {
@@ -96,7 +98,7 @@ class NavigationBotom extends StatelessWidget {
                 color: Color.fromRGBO(39, 58, 58, 1),
                 iconSize: 35,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
+                  Navigator.pushNamed(context, '/login');
                 },
               ),
               Text(

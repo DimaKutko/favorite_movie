@@ -25,6 +25,7 @@ class Favorite extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: NavigationBotom(),
           ),
+          
         ],
       ),
     );
