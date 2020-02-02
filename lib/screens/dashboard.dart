@@ -1,12 +1,11 @@
-import 'package:favorite_movie/Models/favoritemovie.dart';
-import 'package:favorite_movie/service/favotiteMovieDelete.dart';
+import 'package:favorite_movie/service/getrecomended.dart';
+import 'package:favorite_movie/service/movielist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+
 
 class Dashboard extends StatefulWidget {
   @override
@@ -14,254 +13,96 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  List<FavoriteMovie> _favoritemovie = List<FavoriteMovie>();
+  int index1 = 1, index2 = 2, index3 = 3;
+  String rposter;
 
-  Future<List<FavoriteMovie>> getFavoriteMovie() async {
-    var response = await http.get(
-        'https://video-ws-chfmsoli4q-ew.a.run.app/video-ws/videos',
-        headers: {
-          'token': 'dima',
-        });
 
-    var favoritemovie = List<FavoriteMovie>();
+  var _listmovie;
+  getListMovie() async {
+    final listmovie = await ListMovie().getFavoriteMovie();
+    final _recomended = await RecomendedIml().getrecomended();
+    _listmovie = listmovie;
+    rposter = jsonDecode(jsonEncode(_recomended.poster));
 
-    if (response.statusCode == 200) {
-      var fm = json.decode(response.body);
-      for (var fm in fm) {
-        favoritemovie.add(FavoriteMovie.fromJson(fm));
-      }
-    }
-    return favoritemovie;
-  }
-
-  @override //viewed true or falsr icons
-  Widget viewedF(bool viewed) {
-    if (viewed == true) {
-      return Icon(Icons.check_box,
-          size: 20, color: Color.fromRGBO(253, 191, 80, 1));
-    }
-    if (viewed == false) {
-      return Icon(
-        Icons.check_box_outline_blank,
-        size: 20,
-        color: Color.fromRGBO(39, 58, 58, 1),
-      );
-    }
+    setState(() {});
   }
 
   @override
   void initState() {
-    getFavoriteMovie().then((value) {
-      setState(() {
-        _favoritemovie.addAll(value);
-      });
-    });
+    getListMovie();
+
     super.initState();
   }
 
   Widget _buildData() {
-    if (_favoritemovie.length == 0) {
-      return Center(
-          child: Text(
-        'Sorry you dont have favorite movies',
-        style: TextStyle(color: Color.fromRGBO(253, 191, 80, 1), fontSize: 25),
-      ));
-    } else {
-      return Container(
-          color: Color.fromRGBO(39, 58, 58, 0),
-          padding: EdgeInsets.only(left: 10, right: 10),
-          child: ListView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              String id = _favoritemovie[index].id;
-              String title = _favoritemovie[index].title;
-              String year = _favoritemovie[index].year;
-              String poster = _favoritemovie[index].poster;
-              String label = _favoritemovie[index].label;
-              int priority = _favoritemovie[index].priority;
-              bool viewed = _favoritemovie[index].viewed;
-              int rating = _favoritemovie[index].rating;
-              int timestamp = _favoritemovie[index].timestamp;
-              var date = DateFormat.yMMMd().format(
-                  DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000));
-
-              return Dismissible(
-                key: Key(id),
-                onDismissed: (direction) {
-                  // _handleClickMe();
-                  setState(() {
-                    // _handleClickMe();
-                    FavoriteMovieDel(id).favoriteMovieDel();
-                    _favoritemovie.removeAt(index);
-                  });
-                },
-                background: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    border: Border.all(
-                        color: Color.fromRGBO(39, 58, 58, 1), width: 2),
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  ),
-                  child: Icon(
-                    Icons.cancel,
-                    size: 23,
-                    color: Colors.black,
-                  ),
+    return Center(
+      child: GridView.count(
+        crossAxisCount: 2,
+        controller: new ScrollController(keepScrollOffset: false),
+        childAspectRatio: 0.67, // size, standart = 1.0
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage('${_listmovie[index1].poster}'),
+                  fit: BoxFit.fill,
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Container(
-                                height: double.infinity,
-                                width: 130,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage('$poster'),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  border: Border.all(
-                                      color: Color.fromRGBO(39, 58, 58, 1),
-                                      width: 2),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Text(
-                                            '$title ($year)',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22,
-                                                color: Color.fromRGBO(
-                                                    39, 58, 58, 1)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Label:',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color.fromRGBO(
-                                                  39, 58, 58, 1)),
-                                        ),
-                                        Text(
-                                          '"$label"',
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              fontSize: 20,
-                                              color: Color.fromRGBO(
-                                                  39, 58, 58, 1)),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Viewed',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color.fromRGBO(
-                                                  39, 58, 58, 1)),
-                                        ),
-                                        Container(
-                                          child: viewedF(viewed),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Rating:($rating/10)',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color.fromRGBO(
-                                                  39, 58, 58, 1)),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Priority:($priority/10)',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color.fromRGBO(
-                                                  39, 58, 58, 1)),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Text(
-                                            'Added to: $date',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Color.fromRGBO(
-                                                    39, 58, 58, 1)),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
-                    SizedBox(
-                      height: 10,
-                    )
-                  ],
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage('${_listmovie[index2].poster}'),
+                  fit: BoxFit.fill,
                 ),
-              );
-            },
-          ));
-    }
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage('${_listmovie[index3].poster}'),
+                  fit: BoxFit.fill,
+                ),
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage('$rposter'),
+                  fit: BoxFit.fill,
+                ),
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //resizeToAvoidBottomPadding: false,
-      backgroundColor: Color.fromRGBO(39, 78, 78, 1),
+      backgroundColor: Color.fromRGBO(43, 44, 47, 1),
       body: Column(
         children: <Widget>[
           Top(),

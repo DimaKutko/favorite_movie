@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 
 class FavoriteAddMovie {
   String id, title, year, poster, label;
-  int priority = 0, rating = 0, timestamp = DateTime.now().millisecondsSinceEpoch;
+  int priority = 0,
+      rating = 0,
+      timestamp = DateTime.now().millisecondsSinceEpoch;
   bool viewed;
-
-
 
   FavoriteAddMovie(
     this.id,
@@ -18,7 +18,6 @@ class FavoriteAddMovie {
     this.priority,
     this.viewed,
     this.rating,
-
   );
 
   Future favoriteAddMovie() async {
@@ -39,7 +38,7 @@ class FavoriteAddMovie {
     var response = await http.post(url,
         headers: {
           'token': 'dima',
-         // 'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           //'Host': 'video-ws-chfmsoli4q-ew.a.run.app',
         },
         body: data);

@@ -12,5 +12,5 @@ class LoginModel with ChangeNotifier {
     tokenid = login;
     print(tokenid);
     notifyListeners();
-  }
+  } 
 }
