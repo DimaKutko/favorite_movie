@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   
+  ribbon: ^0.0.1
   http: ^0.12.0+2
   splashscreen: ^1.2.0
   intl: ^0.16.1

@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(
+  
+  MaterialApp(
+    
       debugShowCheckedModeBanner: false,
       routes: routes,
     ));
