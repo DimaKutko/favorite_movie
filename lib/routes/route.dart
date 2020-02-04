@@ -1,134 +1,101 @@
+import 'dart:ui';
+
+import 'package:favorite_movie/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:favorite_movie/main.dart';
 import 'package:favorite_movie/screens/favorite.dart';
 import 'package:favorite_movie/screens/search.dart';
-import 'package:favorite_movie/screens/account.dart';
-import 'package:favorite_movie/screens/settings.dart';
 import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 
-
 final routes = {
   '/': (BuildContext context) => MyApp(),
-  '/account': (BuildContext context) => Account(),
   '/favorite': (BuildContext context) => Favorite(),
-  '/search': (BuildContext context) => Search(),
-  '/settings': (BuildContext context) => Settings(),
+  '/search': (BuildContext context) => SearchF(),
   '/dashboard': (BuildContext context) => Dashboard(),
+  '/login': (BuildContext context) => Login(),
 };
 
 class NavigationBotom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-        color: Colors.white,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Column(
-            //кнопка панели
-            children: <Widget>[
-              IconButton(
-                icon: Icon(CupertinoIcons.home),
-                color: Color.fromRGBO(39, 58, 58, 1),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/dashboard',
-                  );
-                },
-              ),
-              Text(
-                'Dashboard',
-                style: TextStyle(
-                  color: Color.fromRGBO(39, 58, 58, 1),
-                ),
-              ),
-            ],
-          ),
-          Column(
-            //кнопка акаунт
-            children: <Widget>[
-              IconButton(
-                icon: Icon(CupertinoIcons.person_solid),
-                color: Color.fromRGBO(39, 58, 58, 1),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/account');
-                },
-              ),
-              Text(
-                'Account',
-                style: TextStyle(
-                  color: Color.fromRGBO(39, 58, 58, 1),
-                ),
-              ),
-            ],
-          ),
-          Column(
-            //кнопка избранное
-            children: <Widget>[
-              IconButton(
-                icon: Icon(CupertinoIcons.heart_solid),
-                color: Color.fromRGBO(39, 58, 58, 1),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/favorite');
-                },
-              ),
-              Text(
-                'Favorite',
-                style: TextStyle(
-                  color: Color.fromRGBO(39, 58, 58, 1),
-                ),
-              ),
-            ],
-          ),
-          Column(
-            //кнопка поиск
-            children: <Widget>[
-              IconButton(
-                icon: Icon(CupertinoIcons.search),
-                color: Color.fromRGBO(39, 58, 58, 1),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/search');
-                },
-              ),
-              Text(
-                'Search',
-                style: TextStyle(
-                  color: Color.fromRGBO(39, 58, 58, 1),
-                ),
-              ),
-            ],
-          ),
-          Column(
-            //кнопка настройки
-            children: <Widget>[
-              IconButton(
-                icon: Icon(CupertinoIcons.settings_solid),
-                color: Color.fromRGBO(39, 58, 58, 1),
-                iconSize: 35,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
-                },
-              ),
-              Text(
-                'Settings',
-                style: TextStyle(color: Color.fromRGBO(39, 58, 58, 1)),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+    Color pink = Color.fromRGBO(236, 37, 65, 1);
+
+    return new ClipRect(
+        child: new BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: new Container(
+                decoration: new BoxDecoration(
+                    color: Color.fromRGBO(21, 21, 21, 1).withOpacity(0.5)),
+                child: Container(
+                  height: 70,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Column(
+                        //кнопка панели
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(CupertinoIcons.news),
+                            color: pink,
+                            iconSize: 35,
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/dashboard',
+                              );
+                            },
+                          ),
+                          Text(
+                            'Dashboard',
+                            style: TextStyle(
+                              color: pink,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        //кнопка избранное
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(CupertinoIcons.heart_solid),
+                            color: pink,
+                            iconSize: 35,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/favorite');
+                            },
+                          ),
+                          Text(
+                            'Favorite',
+                            style: TextStyle(
+                              color: pink,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        //кнопка поиск
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(CupertinoIcons.search),
+                            color: pink,
+                            iconSize: 35,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/search');
+                            },
+                          ),
+                          Text(
+                            'Search',
+                            style: TextStyle(
+                              color: pink,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }
 
