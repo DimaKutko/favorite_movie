@@ -3,6 +3,7 @@ import 'package:favorite_movie/service/movielist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
+import 'package:flutter/services.dart';
 import 'package:ribbon/ribbon.dart';
 import 'dart:convert';
 
@@ -13,7 +14,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   Color pink = Color.fromRGBO(236, 37, 65, 1);
-  int index1 = 1, index2 = 2, index3 = 3;
+  int index1 = 0, index2 = 1, index3 = 2;
   String rposter;
   String rtitle, ryear;
 
@@ -51,11 +52,10 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                // Where the linear gradient begins and ends
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromRGBO(0, 0, 0, 0.2),
+                  Color.fromRGBO(0, 0, 0, 0.1),
                   Color.fromRGBO(0, 0, 0, 0.2),
                   Color.fromRGBO(0, 0, 0, 0.2),
                   Color.fromRGBO(0, 0, 0, 0.2),
@@ -137,7 +137,7 @@ class _DashboardState extends State<Dashboard> {
             Padding(
               padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
               child: Ribbon(
-                nearLength: 50,
+                nearLength: 55,
                 farLength: 70,
                 location: RibbonLocation.topStart,
                 color: pink,
@@ -157,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          // Where the linear gradient begins and ends
+                          
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
@@ -221,20 +221,23 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 1),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: Center(
-                child: _buildData(),
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light, // white status bar ios
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: Center(
+                  child: _buildData(),
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: NavigationBotom(),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: NavigationBotom(),
+            ),
+          ],
+        ),
       ),
     );
   }

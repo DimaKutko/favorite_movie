@@ -240,18 +240,20 @@ class _FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(39, 78, 78, 1),
-      body: Column(
-        children: <Widget>[
-          Top(),
-          Expanded(
-            child: Container(child: _buildData()),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: NavigationBotom(),
-          ),
-        ],
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            
+            Expanded(
+              child: Container(child: _buildData()),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: NavigationBotom(),
+            ),
+          ],
+        ),
       ),
     );
   }
