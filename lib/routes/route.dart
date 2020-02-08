@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:favorite_movie/screens/%D1%81reate.dart';
-import 'package:favorite_movie/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:favorite_movie/main.dart';
 import 'package:favorite_movie/screens/favorite.dart';
@@ -10,12 +8,12 @@ import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/cupertino.dart';
 
 final routes = {
-  '/': (BuildContext context) => MyApp(),
-  '/favorite': (BuildContext context) => Favorite(),
-  '/search': (BuildContext context) => SearchF(),
-  '/dashboard': (BuildContext context) => Dashboard(),
-  '/login': (BuildContext context) => Login(),
-  '/create': (BuildContext context) => Create(),
+  '/': (context) => MyApp(),
+  '/favorite': (context) => Favorite(),
+  '/search': (context) => SearchF(),
+  '/dashboard': (context) => Dashboard(),
+  '/create': (context) => Prv(),
+
 };
 
 class NavigationBotom extends StatelessWidget {
@@ -43,7 +41,7 @@ class NavigationBotom extends StatelessWidget {
                       color: pink,
                       iconSize: 35,
                       onPressed: () {
-                        Navigator.pushNamed(
+                        Navigator.pushReplacementNamed(
                           context,
                           '/dashboard',
                         );
@@ -65,7 +63,7 @@ class NavigationBotom extends StatelessWidget {
                       color: pink,
                       iconSize: 35,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/favorite');
+                        Navigator.pushReplacementNamed(context, '/favorite');
                       },
                     ),
                     Text(
