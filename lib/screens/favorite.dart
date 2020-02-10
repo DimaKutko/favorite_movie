@@ -1,3 +1,4 @@
+import 'package:favorite_movie/models/favoritemovie.dart';
 import 'package:favorite_movie/service/movielist.dart';
 import 'package:favorite_movie/service/favotiteMovieDelete.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
-  var _listmovie;
+  List<FavoriteMovie> _listmovie;
 
   @override //viewed true or falsr icons
   Widget viewedF(bool viewed) {
@@ -31,12 +32,26 @@ class _FavoriteState extends State<Favorite> {
   getListMovie() async {
     final listmovie = await ListMovie().getFavoriteMovie();
     _listmovie = listmovie;
+
+    FavoriteMovie temporary;
+    int long = _listmovie.length;
+    for (int i = 0; i < long - 1; i++) {
+      for (int j = 0; j < long - i - 1; j++) {
+        if (_listmovie[j].timestamp < _listmovie[j + 1].timestamp) {
+          temporary = _listmovie[j];
+          _listmovie[j] = _listmovie[j + 1];
+          _listmovie[j + 1] = temporary;
+          setState(() {});
+        }
+      }
+    }
     setState(() {});
   }
 
   @override
   void initState() {
     getListMovie();
+    //sorting();
 
     super.initState();
   }
@@ -45,8 +60,7 @@ class _FavoriteState extends State<Favorite> {
     if (_listmovie == null) {
       return Center(
         child: CircularProgressIndicator(
-          valueColor:  AlwaysStoppedAnimation<Color>(Colors.white)
-        ),
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
       );
     } else {
       return Container(
@@ -244,7 +258,6 @@ class _FavoriteState extends State<Favorite> {
       body: Center(
         child: Column(
           children: <Widget>[
-            
             Expanded(
               child: Container(child: _buildData()),
             ),

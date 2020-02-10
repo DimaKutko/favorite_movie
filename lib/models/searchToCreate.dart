@@ -1,16 +1,14 @@
-import 'package:favorite_movie/models/movie_info.dart';
 import 'package:flutter/material.dart';
 
 class CreateModel with ChangeNotifier {
-  var add;
+  var _add;
 
-  CreateModel({addMovie}): add = addMovie;
+  CreateModel({addMovie}) : _add = addMovie;
 
-  get addMovie => add;
+  get getaddMovie => _add;
 
-  set addMovie(var value) {
-    add = value;
-    print(add.title);
+  set setaddMovie(var value) {
+    _add = value;
     notifyListeners();
   }
 }

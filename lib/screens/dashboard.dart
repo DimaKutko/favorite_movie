@@ -1,3 +1,4 @@
+import 'package:favorite_movie/models/favoritemovie.dart';
 import 'package:favorite_movie/service/getrecomended.dart';
 import 'package:favorite_movie/service/movielist.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _DashboardState extends State<Dashboard> {
   String rposter;
   String rtitle, ryear;
 
-  var _listmovie;
+  List<FavoriteMovie> _listmovie;
   getListMovie() async {
     final listmovie = await ListMovie().getFavoriteMovie();
     final _recomended = await RecomendedIml().getrecomended();

@@ -49,84 +49,80 @@ class _SearchFState extends State<SearchF> {
   }
 
   Widget _buildData() {
+    final provider = Provider.of<CreateModel>(context);
     if (title == null) {
       return null;
     } else {
       return Expanded(
         child: Padding(
           padding: EdgeInsets.only(top: 5, bottom: 5),
-          child: Consumer<CreateModel>(
-            builder: (context, provider, child) {
-              return GestureDetector(
-                onTap: () {
-                  provider.addMovie = _list;
-                  Navigator.of(context).pushNamed('/create');
-                },
+          child: GestureDetector(
+            onTap: () {
+              provider.setaddMovie = _list;
+              Navigator.of(context).pushNamed('/create');
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.34),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  image: DecorationImage(
+                    image: NetworkImage('$poster'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
                 child: Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.34),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      image: DecorationImage(
-                        image: NetworkImage('$poster'),
-                        fit: BoxFit.fill,
-                      ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromRGBO(0, 0, 0, 0.1),
+                        Color.fromRGBO(0, 0, 0, 0.2),
+                        Color.fromRGBO(0, 0, 0, 0.2),
+                        Color.fromRGBO(0, 0, 0, 0.2),
+                        Color.fromRGBO(0, 0, 0, 0.8),
+                        Color.fromRGBO(0, 0, 0, 1),
+                      ],
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color.fromRGBO(0, 0, 0, 0.1),
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            Color.fromRGBO(0, 0, 0, 0.8),
-                            Color.fromRGBO(0, 0, 0, 1),
-                          ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: 5,
+                          ),
+                          child: Text(
+                            '$title',
+                            softWrap: true, //перенос строки
+                            style: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                              color: pink,
+                            ),
+                          ),
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: 5,
-                              ),
-                              child: Text(
-                                '$title',
-                                softWrap: true, //перенос строки
-                                style: TextStyle(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.bold,
-                                  color: pink,
-                                ),
-                              ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '($year)',
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(255, 255, 255, 1),
                             ),
                           ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: 5, top: 3, bottom: 3),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '($year)',
-                                softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    )),
-              );
-            },
+                    ],
+                  ),
+                )),
           ),
         ),
       );
@@ -143,6 +139,15 @@ class _SearchFState extends State<SearchF> {
         itemExtent: 25, //height of each item
         looping: true,
         scrollController: FixedExtentScrollController(initialItem: 70),
+        onSelectedItemChanged: (int index) {
+          int y = index + 1950;
+          setState(() {
+            if (_formKey.currentState.validate()) {
+              yearS = y.toString();
+              _getData();
+            }
+          });
+        },
         children: List<Widget>.generate(71, (int index) {
           return Center(
             child: Text(
@@ -154,113 +159,100 @@ class _SearchFState extends State<SearchF> {
             ),
           );
         }),
-        onSelectedItemChanged: (int index) {
-          int y = index + 1950;
-          setState(() {
-            if (_formKey.currentState.validate()) {
-              yearS = y.toString();
-              _getData();
-            }
-          });
-        },
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CreateModel>(
-      create: (context) => CreateModel(),
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false, //keyboard top !!!
-        backgroundColor: Colors.black,
-        body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light, // white status bar ios
-          child: Column(
-            children: <Widget>[
-              Top(),
-              Expanded(
-                child: Container(
-                  child: Center(
-                    child: Container(
-                        padding: EdgeInsets.only(
-                            left: 15, right: 15, top: 5, bottom: 15),
-                        child: Column(children: <Widget>[
-                          SizedBox(height: 10.0),
-                          Center(
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color: pink, width: 2),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: Container(
-                                    height: 50,
-                                    child: Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Form(
-                                            key: _formKey,
-                                            child: TextFormField(
-                                              cursorColor: Colors.white,
-                                              enableInteractiveSelection: false,
-                                              textInputAction: TextInputAction
-                                                  .done, //keyboard button type
-                                              autofocus: true,
-                                              keyboardType: TextInputType.text,
-                                              decoration:
-                                                  InputDecoration.collapsed(
-                                                border: InputBorder.none,
-                                                hintText: null,
-                                              ),
-                                              onFieldSubmitted: (term) {
-                                                setState(() {
-                                                  _getData();
-                                                  FocusScope.of(context)
-                                                      .requestFocus(
-                                                          FocusNode());
-                                                });
-                                              },
-                                              style: TextStyle(
-                                                fontSize: 19,
-                                                color: pink,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              validator: (value) {
-                                                if (value.isEmpty) return null;
-                                              },
-                                              onSaved: (value) {
-                                                name = value;
-                                              },
+    return Scaffold(
+      resizeToAvoidBottomPadding: false, //keyboard top !!!
+      backgroundColor: Colors.black,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light, // white status bar ios
+        child: Column(
+          children: <Widget>[
+            Top(),
+            Expanded(
+              child: Container(
+                child: Center(
+                  child: Container(
+                      padding: EdgeInsets.only(
+                          left: 15, right: 15, top: 5, bottom: 15),
+                      child: Column(children: <Widget>[
+                        SizedBox(height: 10.0),
+                        Center(
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(color: pink, width: 2),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 5, right: 5),
+                                child: Container(
+                                  height: 50,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Form(
+                                          key: _formKey,
+                                          child: TextFormField(
+                                            cursorColor: Colors.white,
+                                            enableInteractiveSelection: false,
+                                            textInputAction: TextInputAction
+                                                .done, //keyboard button type
+                                            autofocus: true,
+                                            keyboardType: TextInputType.text,
+                                            decoration:
+                                                InputDecoration.collapsed(
+                                              border: InputBorder.none,
+                                              hintText: null,
                                             ),
+                                            onFieldSubmitted: (term) {
+                                              setState(() {
+                                                _getData();
+                                                FocusScope.of(context)
+                                                    .requestFocus(FocusNode());
+                                              });
+                                            },
+                                            style: TextStyle(
+                                              fontSize: 19,
+                                              color: pink,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            validator: (value) {
+                                              if (value.isEmpty) return null;
+                                            },
+                                            onSaved: (value) {
+                                              name = value;
+                                            },
                                           ),
                                         ),
-                                        Container(
-                                          child: _showDatePicker(),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      Container(
+                                        child: _showDatePicker(),
+                                      ),
+                                    ],
                                   ),
-                                )),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            child: _buildData(),
-                          ),
-                        ])),
-                  ),
+                                ),
+                              )),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          child: _buildData(),
+                        ),
+                      ])),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: NavigationBotom(),
-              ),
-            ],
-          ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: NavigationBotom(),
+            ),
+          ],
         ),
       ),
     );
