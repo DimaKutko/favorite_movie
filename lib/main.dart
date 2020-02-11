@@ -13,8 +13,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider<CreateModel>(
-      create: (_) => CreateModel(),
+    return Provider<GlobalProvider>(
+      create: (_) => GlobalProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: routes,

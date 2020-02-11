@@ -1,10 +1,12 @@
 import 'package:favorite_movie/models/favoritemovie.dart';
+import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:favorite_movie/service/getrecomended.dart';
 import 'package:favorite_movie/service/movielist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:favorite_movie/routes/route.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:ribbon/ribbon.dart';
 import 'dart:convert';
 
@@ -18,8 +20,8 @@ class _DashboardState extends State<Dashboard> {
   int index1 = 0, index2 = 1, index3 = 2;
   String rposter;
   String rtitle, ryear;
-
   List<FavoriteMovie> _listmovie;
+
   getListMovie() async {
     final listmovie = await ListMovie().getFavoriteMovie();
     final _recomended = await RecomendedIml().getrecomended();
@@ -108,6 +110,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget _buildData() {
+    final provider = Provider.of<GlobalProvider>(context);
+    provider.dashboardSetColor();
     if (rtitle == null) {
       return Center(
         child: Column(

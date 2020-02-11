@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'package:favorite_movie/models/movie_info.dart';
 import 'package:favorite_movie/models/searchToCreate.dart';
-import 'package:favorite_movie/screens/%D1%81reate.dart';
+import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:favorite_movie/routes/route.dart';
 import 'package:favorite_movie/service/omdb_api.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +16,7 @@ class SearchF extends StatefulWidget {
 
 class _SearchFState extends State<SearchF> {
   Color pink = Color.fromRGBO(236, 37, 65, 1);
-  var _list;
-
+  var _movie;
   final _formKey = GlobalKey<FormState>(); // for TextForm
   String name;
   String imdbid;
@@ -31,13 +28,13 @@ class _SearchFState extends State<SearchF> {
   void _getData() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      final list = await MovieServiceImpl('$name', '$yearS').getMovieInfo();
-      _list = list;
+      final movie = await MovieServiceImpl('$name', '$yearS').getMovieInfo();
+      _movie = movie;
 
-      title = jsonDecode(jsonEncode(list.title));
-      year = jsonDecode(jsonEncode(list.year));
-      imdbid = jsonDecode(jsonEncode(list.imdbid));
-      poster = jsonDecode(jsonEncode(list.poster));
+      title = jsonDecode(jsonEncode(movie.title));
+      year = jsonDecode(jsonEncode(movie.year));
+      imdbid = jsonDecode(jsonEncode(movie.imdbid));
+      poster = jsonDecode(jsonEncode(movie.poster));
 
       setState(() {});
     }
@@ -49,7 +46,8 @@ class _SearchFState extends State<SearchF> {
   }
 
   Widget _buildData() {
-    final provider = Provider.of<CreateModel>(context);
+    final provider = Provider.of<GlobalProvider>(context);
+    provider.searchSetColor();
     if (title == null) {
       return null;
     } else {
@@ -58,8 +56,11 @@ class _SearchFState extends State<SearchF> {
           padding: EdgeInsets.only(top: 5, bottom: 5),
           child: GestureDetector(
             onTap: () {
-              provider.setaddMovie = _list;
-              Navigator.of(context).pushNamed('/create');
+              provider.setaddMovie = _movie;
+              Navigator.pushNamed(
+                context,
+                '/create',
+              );
             },
             child: Container(
                 decoration: BoxDecoration(

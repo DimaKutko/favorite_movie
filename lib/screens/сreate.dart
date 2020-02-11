@@ -1,4 +1,5 @@
 import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:favorite_movie/routes/route.dart';
 import 'package:favorite_movie/service/favoriteMovieAdd.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +13,8 @@ class Create extends StatefulWidget {
 
 class _CreateState extends State<Create> {
   Color pink = Color.fromRGBO(236, 37, 65, 1);
-
   Color grey = Color.fromRGBO(21, 21, 23, 1);
+  
   bool viewed = false;
   final labelKey = GlobalKey<FormState>();
   String label;
@@ -155,7 +156,7 @@ class _CreateState extends State<Create> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CreateModel>(context);
+    final provider = Provider.of<GlobalProvider>(context);
     var movie = provider.getaddMovie;
     String title = movie.title,
         year = movie.year,

@@ -1,10 +1,13 @@
 import 'package:favorite_movie/models/favoritemovie.dart';
+import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:favorite_movie/service/movielist.dart';
 import 'package:favorite_movie/service/favotiteMovieDelete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Favorite extends StatefulWidget {
   Favorite({Key key}) : super(key: key);
@@ -14,7 +17,7 @@ class Favorite extends StatefulWidget {
 
 class _FavoriteState extends State<Favorite> {
   List<FavoriteMovie> _listmovie;
-
+  
   @override //viewed true or falsr icons
   Widget viewedF(bool viewed) {
     if (viewed == true) {
@@ -35,6 +38,7 @@ class _FavoriteState extends State<Favorite> {
 
     FavoriteMovie temporary;
     int long = _listmovie.length;
+    //sorting timestamp
     for (int i = 0; i < long - 1; i++) {
       for (int j = 0; j < long - i - 1; j++) {
         if (_listmovie[j].timestamp < _listmovie[j + 1].timestamp) {
@@ -51,12 +55,13 @@ class _FavoriteState extends State<Favorite> {
   @override
   void initState() {
     getListMovie();
-    //sorting();
-
+    
     super.initState();
   }
 
   Widget _buildData() {
+    final provider = Provider.of<GlobalProvider>(context);
+    provider.favoriteSetColor();
     if (_listmovie == null) {
       return Center(
         child: CircularProgressIndicator(
