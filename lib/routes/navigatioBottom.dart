@@ -1,6 +1,5 @@
 import 'dart:ui';
-
-import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/models/GlobalProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,6 @@ import 'package:provider/provider.dart';
 class NavigationBotom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Color pink = Color.fromRGBO(236, 37, 65, 1);
     final provider = Provider.of<GlobalProvider>(context);
     return ClipRect(
       child: BackdropFilter(
@@ -29,6 +27,7 @@ class NavigationBotom extends StatelessWidget {
                       icon: Icon(CupertinoIcons.news),
                       color: provider.dasboardColor,
                       iconSize: 35,
+                      
                       onPressed: () {
                         Navigator.pushNamed(
                           context,

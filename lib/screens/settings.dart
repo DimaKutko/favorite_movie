@@ -1,4 +1,4 @@
-import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/models/GlobalProvider.dart';
 import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';

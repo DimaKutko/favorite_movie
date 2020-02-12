@@ -1,6 +1,5 @@
-import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/models/GlobalProvider.dart';
 import 'package:favorite_movie/routes/navigatioBottom.dart';
-import 'package:favorite_movie/routes/route.dart';
 import 'package:favorite_movie/service/favoriteMovieAdd.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +13,11 @@ class Create extends StatefulWidget {
 class _CreateState extends State<Create> {
   Color pink = Color.fromRGBO(236, 37, 65, 1);
   Color grey = Color.fromRGBO(21, 21, 23, 1);
-  
+
   bool viewed = false;
   final labelKey = GlobalKey<FormState>();
   String label;
-  int priority, rating;
+  int priority = 1, rating = 1;
 
   Widget pickerPriority() {
     return Container(
@@ -306,7 +305,6 @@ class _CreateState extends State<Create> {
                                 enableInteractiveSelection: false,
                                 textInputAction:
                                     TextInputAction.done, //keyboard button type
-                                autofocus: true,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration.collapsed(
                                   border: InputBorder.none,
@@ -327,7 +325,11 @@ class _CreateState extends State<Create> {
                                   if (value.isEmpty) return null;
                                 },
                                 onSaved: (value) {
-                                  label = value;
+                                  if (value != "") {
+                                    label = value;
+                                  } else {
+                                    label = "pppqqqyyy";
+                                  }
                                 },
                               ),
                             ),
@@ -397,7 +399,7 @@ class _CreateState extends State<Create> {
                               color: pink),
                         ),
                         onPressed: () {
-                          labelKey.currentState.save();  //childhood
+                          labelKey.currentState.save(); //childhood
                           FavoriteAddMovie(
                             imdbid,
                             title,

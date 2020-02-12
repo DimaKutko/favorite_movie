@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/models/GlobalProvider.dart';
 import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,7 +64,6 @@ class _SearchFState extends State<SearchF> {
             },
             child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 255, 255, 0.34),
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   image: DecorationImage(
                     image: NetworkImage('$poster'),

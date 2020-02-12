@@ -1,5 +1,5 @@
 import 'package:favorite_movie/models/favoritemovie.dart';
-import 'package:favorite_movie/models/searchToCreate.dart';
+import 'package:favorite_movie/models/GlobalProvider.dart';
 import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:favorite_movie/service/getrecomended.dart';
 import 'package:favorite_movie/service/movielist.dart';
@@ -17,18 +17,61 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   Color pink = Color.fromRGBO(236, 37, 65, 1);
-  int index1 = 0, index2 = 1, index3 = 2;
+  List<int> index = [0, 1, 2];
   String rposter;
   String rtitle, ryear;
   List<FavoriteMovie> _listmovie;
 
   getListMovie() async {
     final listmovie = await ListMovie().getFavoriteMovie();
-    final _recomended = await RecomendedIml().getrecomended();
     _listmovie = listmovie;
-    rposter = jsonDecode(jsonEncode(_recomended.poster));
-    rtitle = jsonDecode(jsonEncode(_recomended.title));
-    ryear = jsonDecode(jsonEncode(_recomended.year));
+
+    bool check = true;
+    FavoriteMovie temporary;
+    int long = listmovie.length;
+    // sort by priority
+    for (int i = 0; i < long - 1; i++) {
+      check = true;
+      for (int j = 0; j < long - i - 1; j++) {
+        //sorting priority
+        if (_listmovie[j].priority < _listmovie[j + 1].priority) {
+          temporary = _listmovie[j];
+          _listmovie[j] = _listmovie[j + 1];
+          _listmovie[j + 1] = temporary;
+          check = false;
+          setState(() {});
+        }
+      }
+      if (check) break;
+    }
+    //viewed = false to top of list
+    for (int i = 0; i < long - 1; i++) {
+      for (int j = 0; j < long - i - 1; j++) {
+        if (_listmovie[j].viewed) {
+          if (_listmovie[j + 1].viewed == false) {
+            temporary = _listmovie[j];
+            _listmovie[j] = _listmovie[j + 1];
+            _listmovie[j + 1] = temporary;
+            setState(() {});
+          }
+        }
+      }
+    }
+
+    //movies are not repeated in the dashboard
+    do {
+      final _recomended = await RecomendedIml().getrecomended();
+      rposter = jsonDecode(jsonEncode(_recomended.poster));
+      rtitle = jsonDecode(jsonEncode(_recomended.title));
+      ryear = jsonDecode(jsonEncode(_recomended.year));
+      check = false;
+      for (int i = 0; i < 3; i++) {
+        if (_listmovie[i].title == rtitle) {
+          print("Coppy");
+          check = true;
+        }
+      }
+    } while (check);
 
     setState(() {});
   }
@@ -117,15 +160,15 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            
             CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                Padding(
-                  padding:  EdgeInsets.only(top: 15.0),
-                  child: Text('Loading',
-                  style: TextStyle(fontSize: 19, color: Colors.white),
-                  ),
-                )
+            Padding(
+              padding: EdgeInsets.only(top: 15.0),
+              child: Text(
+                'Loading',
+                style: TextStyle(fontSize: 19, color: Colors.white),
+              ),
+            )
           ],
         ),
       );
@@ -136,9 +179,9 @@ class _DashboardState extends State<Dashboard> {
           controller: new ScrollController(keepScrollOffset: false),
           childAspectRatio: 0.66, // size, standart = 1.0
           children: <Widget>[
-            movieCard(index1),
-            movieCard(index2),
-            movieCard(index3),
+            movieCard(index[0]),
+            movieCard(index[1]),
+            movieCard(index[2]),
             Padding(
               padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
               child: Ribbon(
@@ -162,7 +205,6 @@ class _DashboardState extends State<Dashboard> {
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
