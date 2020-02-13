@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class GlobalProvider with ChangeNotifier {
   var _add;
+  var _edit;
   Color dasboardColor, favoriteColor, searchColor, settingsColor;
   Color pink = Color.fromRGBO(236, 37, 65, 1);
   Color grey = Color.fromRGBO(123, 127, 145, 0.5);
@@ -12,6 +13,14 @@ class GlobalProvider with ChangeNotifier {
     _add = value;
     notifyListeners();
   }
+
+  get getEditMovie => _edit;
+
+  set setEditMovie(var value) {
+    _edit = value;
+    notifyListeners();
+  }
+
 
    dashboardSetColor(){
     dasboardColor = pink;

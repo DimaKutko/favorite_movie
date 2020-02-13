@@ -186,7 +186,7 @@ class _SearchFState extends State<SearchF> {
                               decoration: BoxDecoration(
                                 color: Colors.black,
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: pink, width: 2),
+                                border: Border.all(color: pink, width: 1),
                               ),
                               child: Padding(
                                 padding: EdgeInsets.only(left: 5, right: 5),

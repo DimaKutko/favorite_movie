@@ -5,6 +5,7 @@ import 'package:favorite_movie/service/movielist.dart';
 import 'package:favorite_movie/service/favotiteMovieDelete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -82,13 +83,26 @@ class _FavoriteState extends State<Favorite> {
     super.initState();
   }
 
+  @override
   Widget _buildData() {
     final provider = Provider.of<GlobalProvider>(context);
     provider.favoriteSetColor();
     if (_listmovie == null) {
       return Center(
-        child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+            Padding(
+              padding: EdgeInsets.only(top: 15.0),
+              child: Text(
+                'Loading',
+                style: TextStyle(fontSize: 19, color: Colors.white),
+              ),
+            )
+          ],
+        ),
       );
     } else {
       return Container(
@@ -116,137 +130,149 @@ class _FavoriteState extends State<Favorite> {
               if (viewed) viewedString = "Viewed";
               if (!viewed) viewedString = "Not viewed";
 
-              return Dismissible(
-                key: Key(id),
-                onDismissed: (direction) {
-                  setState(() {
-                    FavoriteMovieDel(id).favoriteMovieDel();
-                    _listmovie.removeAt(index);
-                  });
+              return GestureDetector(
+                onTap: () {
+                  provider.setEditMovie = _listmovie[index];
+                  Navigator.pushNamed(
+                    context,
+                    '/edit',
+                  );
                 },
-                background: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    border: Border.all(
-                        color: Color.fromRGBO(39, 58, 58, 1), width: 2),
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  ),
-                  child: Icon(
-                    Icons.cancel,
-                    size: 23,
-                    color: Colors.black,
-                  ),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 203,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: pink, width: 1),
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            height: 203,
-                            width: 140,
-                            child: Center(
-                              child: Container(
-                                height: 193,
-                                width: 130,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  image: DecorationImage(
-                                    image: NetworkImage('$poster'),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color.fromRGBO(236, 37, 65, 0.1),
-                                          Color.fromRGBO(236, 37, 65, 0.2),
-                                          Color.fromRGBO(236, 37, 65, 0.3),
-                                          Color.fromRGBO(236, 37, 65, 0.4),
-                                          Color.fromRGBO(236, 37, 65, 0.5),
-                                          Color.fromRGBO(236, 37, 65, 0.6),
-                                          Color.fromRGBO(236, 37, 65, 1),
-                                        ],
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '$viewedString',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic,
-                                          color: Color.fromRGBO(
-                                              255, 244, 255, 0.9),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(top: 5, bottom: 5, right: 5),
-                              child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        '$title',
-                                        softWrap: true, //перенос строки
-                                        style: TextStyle(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.bold,
-                                          color: pink,
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        '($year)',
-                                        softWrap: true, //перенос строки
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          color: white,
-                                        ),
-                                      ),
-                                    ),
-                                    infoString("Label", label),
-                                    infoString("Priority", prioritString),
-                                    infoString("Rating", "(${rating}/10)"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                child: Dismissible(
+                  key: Key(id),
+                  onDismissed: (direction) {
+                    setState(() {
+                      FavoriteMovieDel(id).favoriteMovieDel();
+                      _listmovie.removeAt(index);
+                    });
+                  },
+                  background: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      border: Border.all(
+                          color: Color.fromRGBO(39, 58, 58, 1), width: 2),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
-                    SizedBox(
-                      height: 10,
-                    )
-                  ],
+                    child: Icon(
+                      Icons.cancel,
+                      size: 23,
+                      color: Colors.black,
+                    ),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 203,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: pink, width: 1),
+                          color: Colors.black,
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: 203,
+                              width: 140,
+                              child: Center(
+                                child: Container(
+                                  height: 193,
+                                  width: 130,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    image: DecorationImage(
+                                      image: NetworkImage('$poster'),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.vertical(
+                                            bottom: Radius.circular(5.0)),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color.fromRGBO(236, 37, 65, 0.1),
+                                            Color.fromRGBO(236, 37, 65, 0.2),
+                                            Color.fromRGBO(236, 37, 65, 0.3),
+                                            Color.fromRGBO(236, 37, 65, 0.4),
+                                            Color.fromRGBO(236, 37, 65, 0.5),
+                                            Color.fromRGBO(236, 37, 65, 0.6),
+                                            Color.fromRGBO(236, 37, 65, 1),
+                                          ],
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '$viewedString',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic,
+                                            color: Color.fromRGBO(
+                                                255, 244, 255, 0.9),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 5, bottom: 5, right: 5),
+                                child: Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '$title',
+                                          softWrap: true, //перенос строки
+                                          style: TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
+                                            color: pink,
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '($year)',
+                                          softWrap: true, //перенос строки
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            color: white,
+                                          ),
+                                        ),
+                                      ),
+                                      infoString("Label", label),
+                                      infoString("Priority", prioritString),
+                                      infoString("Rating", "(${rating}/10)"),
+                                      infoString("Added", "$date"),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      )
+                    ],
+                  ),
                 ),
               );
             },
@@ -256,18 +282,21 @@ class _FavoriteState extends State<Favorite> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: Column(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light, // white status bar ios
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Column(
           children: <Widget>[
+            Top(),
             Expanded(
-              child: Container(child: _buildData()),
+              child: Column(
+                children: <Widget>[
+                  Expanded(child: _buildData()),
+                ],
+              ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: NavigationBotom(),
-            ),
+            NavigationBotom()
           ],
         ),
       ),
