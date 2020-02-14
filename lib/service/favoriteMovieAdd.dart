@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class FavoriteAddMovie {
-  String id, title, year, poster, label;
+  String id, title, year, poster, label, token;
   int priority = 0,
       rating = 0,
       timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -18,6 +18,7 @@ class FavoriteAddMovie {
     this.priority,
     this.viewed,
     this.rating,
+    this.token
   );
 
   Future favoriteAddMovie() async {
@@ -37,9 +38,7 @@ class FavoriteAddMovie {
 
     var response = await http.post(url,
         headers: {
-          'token': 'dima',
-          // 'Content-Type': 'application/json',
-          //'Host': 'video-ws-chfmsoli4q-ew.a.run.app',
+          'token': '$token',
         },
         body: data);
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class PutEditMovie {
-  String id, title, year, poster, label;
+  String id, title, year, poster, label, token;
   int priority = 0,
       rating = 0,
       timestamp;
@@ -19,6 +19,7 @@ class PutEditMovie {
     this.viewed,
     this.rating,
     this.timestamp,
+    this.token
   );
 
   Future putEditMovie() async {
@@ -38,7 +39,7 @@ class PutEditMovie {
 
     var response = await http.put(url,
         headers: {
-          'token': 'dima',
+          'token': '$token',
           // 'Content-Type': 'application/json',
         },
         body: data);

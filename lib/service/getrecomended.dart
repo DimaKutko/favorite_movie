@@ -8,11 +8,12 @@ abstract class Recomended {
 }
 
 class RecomendedIml implements Recomended {
+  
   @override
   Future<FavoriteMovie> getrecomended() async {
     var response = await http
         .get('https://video-ws-chfmsoli4q-ew.a.run.app/video-ws/recomended', headers: {
-      'token': 'dima',
+      'token': 'irrelevant',
     });
 
     if (response.statusCode >= 200 && response.statusCode < 300) {

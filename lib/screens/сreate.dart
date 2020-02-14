@@ -244,7 +244,7 @@ class _CreateState extends State<Create> {
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: pink, width: 2),
+                                    border: Border.all(color: pink, width: 1),
                                   ),
                                   child: SwitchListTile(
                                     title: Text(
@@ -409,6 +409,7 @@ class _CreateState extends State<Create> {
                             priority,
                             viewed,
                             rating,
+                            provider.getToken
                           ).favoriteAddMovie();
                           Navigator.pop(context);
                         },

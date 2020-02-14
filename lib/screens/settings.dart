@@ -10,6 +10,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  Color pink = Color.fromRGBO(236, 37, 65, 1);
+  Color white = Color.fromRGBO(255, 255, 255, 1);
+  Color grey = Color.fromRGBO(21, 21, 23, 1);
   void initState() {
     super.initState();
   }
@@ -18,9 +21,32 @@ class _SettingsState extends State<Settings> {
   Widget _build() {
     final provider = Provider.of<GlobalProvider>(context);
     provider.settingsSetColor();
-    return Center(
-      child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+            height: 40,
+            child: RaisedButton(
+              color: grey,
+              child: Text(
+                "Logout",
+                style: TextStyle(
+                    fontSize: 21, fontWeight: FontWeight.bold, color: pink),
+              ),
+              onPressed: () {
+                provider.setToken = null;
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 

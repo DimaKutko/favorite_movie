@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class GlobalProvider with ChangeNotifier {
   var _add;
   var _edit;
+  String _token;
   Color dasboardColor, favoriteColor, searchColor, settingsColor;
   Color pink = Color.fromRGBO(236, 37, 65, 1);
   Color grey = Color.fromRGBO(123, 127, 145, 0.5);
@@ -11,6 +12,13 @@ class GlobalProvider with ChangeNotifier {
 
   set setaddMovie(var value) {
     _add = value;
+    notifyListeners();
+  }
+
+  get getToken => _token;
+
+  set setToken(String value) {
+    _token = value;
     notifyListeners();
   }
 

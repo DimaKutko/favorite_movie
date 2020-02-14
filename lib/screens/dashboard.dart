@@ -22,8 +22,8 @@ class _DashboardState extends State<Dashboard> {
   String rtitle, ryear;
   List<FavoriteMovie> _listmovie;
 
-  getListMovie() async {
-    final listmovie = await ListMovie().getFavoriteMovie();
+  getListMovie(String token) async {
+    final listmovie = await ListMovie(token).getFavoriteMovie();
     _listmovie = listmovie;
 
     bool check = true;
@@ -78,7 +78,9 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
-    getListMovie();
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
+    
+    getListMovie(provider.getToken);
 
     super.initState();
   }

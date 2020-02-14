@@ -183,60 +183,60 @@ class _SearchFState extends State<SearchF> {
                         SizedBox(height: 10.0),
                         Center(
                           child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: pink, width: 1),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 5, right: 5),
-                                child: Container(
-                                  height: 50,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Form(
-                                          key: _formKey,
-                                          child: TextFormField(
-                                            cursorColor: Colors.white,
-                                            enableInteractiveSelection: false,
-                                            textInputAction: TextInputAction
-                                                .done, //keyboard button type
-                                            autofocus: true,
-                                            keyboardType: TextInputType.text,
-                                            decoration:
-                                                InputDecoration.collapsed(
-                                              border: InputBorder.none,
-                                              hintText: null,
-                                            ),
-                                            onFieldSubmitted: (term) {
-                                              setState(() {
-                                                _getData();
-                                                FocusScope.of(context)
-                                                    .requestFocus(FocusNode());
-                                              });
-                                            },
-                                            style: TextStyle(
-                                              fontSize: 19,
-                                              color: pink,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            validator: (value) {
-                                              if (value.isEmpty) return null;
-                                            },
-                                            onSaved: (value) {
-                                              name = value;
-                                            },
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: pink, width: 1),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: Container(
+                                height: 50,
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Form(
+                                        key: _formKey,
+                                        child: TextFormField(
+                                          cursorColor: Colors.white,
+                                          enableInteractiveSelection: false,
+                                          textInputAction: TextInputAction
+                                              .done, //keyboard button type
+                                          autofocus: true,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration.collapsed(
+                                            border: InputBorder.none,
+                                            hintText: null,
                                           ),
+                                          onFieldSubmitted: (term) {
+                                            setState(() {
+                                              _getData();
+                                              FocusScope.of(context)
+                                                  .requestFocus(FocusNode());
+                                            });
+                                          },
+                                          style: TextStyle(
+                                            fontSize: 19,
+                                            color: pink,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          validator: (value) {
+                                            if (value.isEmpty) return null;
+                                          },
+                                          onSaved: (value) {
+                                            name = value;
+                                          },
                                         ),
                                       ),
-                                      Container(
-                                        child: _showDatePicker(),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    Container(
+                                      child: _showDatePicker(),
+                                    ),
+                                  ],
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ),
                         SizedBox(
                           height: 10,

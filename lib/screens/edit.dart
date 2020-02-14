@@ -279,7 +279,7 @@ class _EditState extends State<Edit> {
                     decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: pink, width: 2),
+                      border: Border.all(color: pink, width: 1),
                     ),
                     child: Row(
                       children: <Widget>[
@@ -410,7 +410,8 @@ class _EditState extends State<Edit> {
                             movie.priority,
                             movie.viewed,
                             movie.rating,
-                            movie.timestamp
+                            movie.timestamp,
+                            provider.getToken
                           ).putEditMovie();
                           Navigator.pushNamed(context, '/favorite');
                         },

@@ -21,8 +21,8 @@ class _FavoriteState extends State<Favorite> {
   Color pink = Color.fromRGBO(236, 37, 65, 1);
   Color white = Color.fromRGBO(255, 255, 255, 1);
 
-  getListMovie() async {
-    final listmovie = await ListMovie().getFavoriteMovie();
+  getListMovie(String token) async {
+    final listmovie = await ListMovie(token).getFavoriteMovie();
     _listmovie = listmovie;
 
     FavoriteMovie temporary;
@@ -79,7 +79,8 @@ class _FavoriteState extends State<Favorite> {
 
   @override
   void initState() {
-    getListMovie();
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
+    getListMovie(provider.getToken);
     super.initState();
   }
 
@@ -142,7 +143,7 @@ class _FavoriteState extends State<Favorite> {
                   key: Key(id),
                   onDismissed: (direction) {
                     setState(() {
-                      FavoriteMovieDel(id).favoriteMovieDel();
+                      FavoriteMovieDel(id, provider.getToken).favoriteMovieDel();
                       _listmovie.removeAt(index);
                     });
                   },
