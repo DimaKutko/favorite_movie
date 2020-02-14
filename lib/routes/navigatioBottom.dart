@@ -12,8 +12,7 @@ class NavigationBotom extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
         child: Container(
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(21, 21, 21, 0.2).withOpacity(0.3)),
+          decoration: BoxDecoration(color: provider.backgroundColor),
           child: Container(
             height: 70,
             width: double.infinity,
@@ -24,10 +23,10 @@ class NavigationBotom extends StatelessWidget {
                   //кнопка панели
                   children: <Widget>[
                     IconButton(
+                      enableFeedback: false,
                       icon: Icon(CupertinoIcons.news),
                       color: provider.dasboardColor,
                       iconSize: 35,
-                      
                       onPressed: () {
                         Navigator.pushNamed(
                           context,

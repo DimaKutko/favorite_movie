@@ -46,6 +46,7 @@ class _FavoriteState extends State<Favorite> {
 
   @override
   Widget infoString(String name, String data) {
+    final provider = Provider.of<GlobalProvider>(context);
     return Row(
       children: <Widget>[
         Align(
@@ -56,7 +57,7 @@ class _FavoriteState extends State<Favorite> {
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
-              color: white,
+              color: provider.textColor,
             ),
           ),
         ),
@@ -69,7 +70,7 @@ class _FavoriteState extends State<Favorite> {
               fontSize: 17,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.bold,
-              color: white,
+              color: provider.textColor,
             ),
           ),
         ),
@@ -94,19 +95,32 @@ class _FavoriteState extends State<Favorite> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                valueColor: AlwaysStoppedAnimation<Color>(provider.textColor)),
             Padding(
               padding: EdgeInsets.only(top: 15.0),
               child: Text(
                 'Loading',
-                style: TextStyle(fontSize: 19, color: Colors.white),
+                style: TextStyle(fontSize: 19, color: provider.textColor),
               ),
             )
           ],
         ),
       );
     } else {
-      return Container(
+      if (_listmovie.length == 0) {
+        return Padding(
+          padding: const EdgeInsets.only(left: 5, right: 5),
+          child: Container(
+            child: Center(
+              child: Text(
+                'You dont have favorite movies.',
+                style: TextStyle(fontSize: 19, color: provider.textColor),
+              ),
+            ),
+          ),
+        );
+      } else {
+        return Container(
           color: Color.fromRGBO(39, 58, 58, 0),
           padding: EdgeInsets.only(left: 10, right: 10),
           child: ListView.builder(
@@ -143,13 +157,13 @@ class _FavoriteState extends State<Favorite> {
                   key: Key(id),
                   onDismissed: (direction) {
                     setState(() {
-                      FavoriteMovieDel(id, provider.getToken).favoriteMovieDel();
+                      FavoriteMovieDel(id, provider.getToken)
+                          .favoriteMovieDel();
                       _listmovie.removeAt(index);
                     });
                   },
                   background: Container(
                     decoration: BoxDecoration(
-                      color: Colors.red,
                       border: Border.all(
                           color: Color.fromRGBO(39, 58, 58, 1), width: 2),
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -166,7 +180,7 @@ class _FavoriteState extends State<Favorite> {
                         height: 203,
                         decoration: BoxDecoration(
                           border: Border.all(color: pink, width: 1),
-                          color: Colors.black,
+                          color: provider.backgroundColor,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: Row(
@@ -253,7 +267,7 @@ class _FavoriteState extends State<Favorite> {
                                           style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
-                                            color: white,
+                                            color: provider.textColor,
                                           ),
                                         ),
                                       ),
@@ -277,16 +291,19 @@ class _FavoriteState extends State<Favorite> {
                 ),
               );
             },
-          ));
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light, // white status bar ios
+      value: provider.statusbar, // white status bar ios
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: provider.backgroundColor,
         body: Column(
           children: <Widget>[
             Top(),

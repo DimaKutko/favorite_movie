@@ -5,10 +5,12 @@ import 'package:favorite_movie/screens/login.dart';
 import 'package:favorite_movie/screens/search.dart';
 import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:favorite_movie/screens/settings.dart';
+import 'package:favorite_movie/screens/splash.dart';
 
 final routes = {
-  '/favorite': (context) => Favorite(),
+  '/splash': (context) => SplashScreen(),
   '/login': (context) => Login(),
+  '/favorite': (context) => Favorite(),
   '/dashboard': (context) => Dashboard(),
   '/search': (context) => SearchF(),
   '/create': (context) => Create(),

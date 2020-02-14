@@ -1,12 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class GlobalProvider with ChangeNotifier {
   var _add;
   var _edit;
   String _token;
-  Color dasboardColor, favoriteColor, searchColor, settingsColor;
+  Color dasboardColor,
+      favoriteColor,
+      searchColor,
+      settingsColor,
+      backgroundColor,
+      textColor,
+      buttonColor;
+
+  bool _them = false;
+  Color white = Colors.white;
+  Color black = Colors.black;
   Color pink = Color.fromRGBO(236, 37, 65, 1);
-  Color grey = Color.fromRGBO(123, 127, 145, 0.5);
+  Color grey = Color.fromRGBO(127, 127, 145, 0.5);
+  SystemUiOverlayStyle statusbar;
+
+  get getThemColor => _them;
+
+  set setThemColor(bool value) {
+    _them = value;
+    if (_them == false) {
+      //dark
+      statusbar = SystemUiOverlayStyle.light;
+      backgroundColor = black;
+      textColor = white;
+      buttonColor = grey;
+    } else if (_them == true) {
+      //light
+      statusbar = SystemUiOverlayStyle.dark;
+      backgroundColor = white;
+      textColor = black;
+      buttonColor = black;
+    }
+    notifyListeners();
+  }
 
   get getaddMovie => _add;
 
@@ -29,34 +61,35 @@ class GlobalProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-   dashboardSetColor(){
+  dashboardSetColor() {
     dasboardColor = pink;
-    favoriteColor = grey;
-    searchColor = grey;
-    settingsColor = grey;
-   notifyListeners(); 
+    favoriteColor = buttonColor;
+    searchColor = buttonColor;
+    settingsColor = buttonColor;
+    notifyListeners();
   }
 
-  favoriteSetColor(){
-    dasboardColor = grey;
+  favoriteSetColor() {
+    dasboardColor = buttonColor;
     favoriteColor = pink;
-    searchColor = grey;
-    settingsColor = grey;
-   notifyListeners(); 
+    searchColor = buttonColor;
+    settingsColor = buttonColor;
+    notifyListeners();
   }
-  searchSetColor(){
-    dasboardColor = grey;
-    favoriteColor = grey;
+
+  searchSetColor() {
+    dasboardColor = buttonColor;
+    favoriteColor = buttonColor;
     searchColor = pink;
-    settingsColor = grey;
-   notifyListeners(); 
+    settingsColor = buttonColor;
+    notifyListeners();
   }
-  settingsSetColor(){
-    dasboardColor = grey;
-    favoriteColor = grey;
-    searchColor = grey;
+
+  settingsSetColor() {
+    dasboardColor = buttonColor;
+    favoriteColor = buttonColor;
+    searchColor = buttonColor;
     settingsColor = pink;
-   notifyListeners(); 
+    notifyListeners();
   }
 }

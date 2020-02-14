@@ -1,4 +1,4 @@
-import 'package:favorite_movie/screens/login.dart';
+import 'package:favorite_movie/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:favorite_movie/routes/route.dart';
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: routes,
-        home: Login(),
+        home: SplashScreen(),
       ),
     );
   }

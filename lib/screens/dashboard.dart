@@ -30,59 +30,145 @@ class _DashboardState extends State<Dashboard> {
     FavoriteMovie temporary;
     int long = listmovie.length;
     // sort by priority
-    for (int i = 0; i < long - 1; i++) {
-      check = true;
-      for (int j = 0; j < long - i - 1; j++) {
-        //sorting priority
-        if (_listmovie[j].priority < _listmovie[j + 1].priority) {
-          temporary = _listmovie[j];
-          _listmovie[j] = _listmovie[j + 1];
-          _listmovie[j + 1] = temporary;
-          check = false;
-          setState(() {});
-        }
-      }
-      if (check) break;
-    }
-    //viewed = false to top of list
-    for (int i = 0; i < long - 1; i++) {
-      for (int j = 0; j < long - i - 1; j++) {
-        if (_listmovie[j].viewed) {
-          if (_listmovie[j + 1].viewed == false) {
+    if (long >= 3) {
+      for (int i = 0; i < long - 1; i++) {
+        check = true;
+        for (int j = 0; j < long - i - 1; j++) {
+          //sorting priority
+          if (_listmovie[j].priority < _listmovie[j + 1].priority) {
             temporary = _listmovie[j];
             _listmovie[j] = _listmovie[j + 1];
             _listmovie[j + 1] = temporary;
+            check = false;
             setState(() {});
           }
         }
+        if (check) break;
       }
-    }
+      //viewed = false to top of list
+      for (int i = 0; i < long - 1; i++) {
+        for (int j = 0; j < long - i - 1; j++) {
+          if (_listmovie[j].viewed) {
+            if (_listmovie[j + 1].viewed == false) {
+              temporary = _listmovie[j];
+              _listmovie[j] = _listmovie[j + 1];
+              _listmovie[j + 1] = temporary;
+              setState(() {});
+            }
+          }
+        }
+      }
 
-    //movies are not repeated in the dashboard
-    do {
+      //movies are not repeated in the dashboard
+      do {
+        final _recomended = await RecomendedIml().getrecomended();
+        rposter = jsonDecode(jsonEncode(_recomended.poster));
+        rtitle = jsonDecode(jsonEncode(_recomended.title));
+        ryear = jsonDecode(jsonEncode(_recomended.year));
+        check = false;
+        for (int i = 0; i < 3; i++) {
+          if (_listmovie[i].title == rtitle) {
+            print("Coppy");
+            check = true;
+          }
+        }
+      } while (check);
+    } else {
       final _recomended = await RecomendedIml().getrecomended();
       rposter = jsonDecode(jsonEncode(_recomended.poster));
       rtitle = jsonDecode(jsonEncode(_recomended.title));
       ryear = jsonDecode(jsonEncode(_recomended.year));
-      check = false;
-      for (int i = 0; i < 3; i++) {
-        if (_listmovie[i].title == rtitle) {
-          print("Coppy");
-          check = true;
-        }
-      }
-    } while (check);
-
+    }
     setState(() {});
   }
 
   @override
   void initState() {
     final provider = Provider.of<GlobalProvider>(context, listen: false);
-    
+
     getListMovie(provider.getToken);
 
     super.initState();
+  }
+
+  Widget recomendet() {
+    return Padding(
+      padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+      child: Ribbon(
+        nearLength: 55,
+        farLength: 70,
+        location: RibbonLocation.topStart,
+        color: pink,
+        title: 'Recommended',
+        titleStyle: TextStyle(
+          fontSize: 10,
+        ),
+        child: Container(
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(255, 255, 255, 0.34),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              image: DecorationImage(
+                image: NetworkImage('${rposter}'),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(5.0)),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                    Color.fromRGBO(0, 0, 0, 0.8),
+                    Color.fromRGBO(0, 0, 0, 1),
+                  ],
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 5,
+                      ),
+                      child: Text(
+                        '${rtitle}',
+                        softWrap: true, //перенос строки
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          color: pink,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5, top: 3, bottom: 5),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '(${ryear})',
+                        softWrap: true,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+      ),
+    );
   }
 
   Widget movieCard(int indx) {
@@ -90,7 +176,6 @@ class _DashboardState extends State<Dashboard> {
       padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
       child: Container(
           decoration: BoxDecoration(
-            color: Color.fromRGBO(255, 255, 255, 0.34),
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
             image: DecorationImage(
               image: NetworkImage('${_listmovie[indx].poster}'),
@@ -99,6 +184,7 @@ class _DashboardState extends State<Dashboard> {
           ),
           child: Container(
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(5.0)),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -133,7 +219,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
+                  padding: EdgeInsets.only(left: 5, top: 3, bottom: 5),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -163,115 +249,50 @@ class _DashboardState extends State<Dashboard> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                valueColor: AlwaysStoppedAnimation<Color>(provider.textColor)),
             Padding(
               padding: EdgeInsets.only(top: 15.0),
               child: Text(
                 'Loading',
-                style: TextStyle(fontSize: 19, color: Colors.white),
+                style: TextStyle(fontSize: 19, color: provider.textColor),
               ),
             )
           ],
         ),
       );
     } else {
-      return Center(
-        child: GridView.count(
-          crossAxisCount: 2,
-          controller: new ScrollController(keepScrollOffset: false),
-          childAspectRatio: 0.66, // size, standart = 1.0
-          children: <Widget>[
-            movieCard(index[0]),
-            movieCard(index[1]),
-            movieCard(index[2]),
-            Padding(
-              padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-              child: Ribbon(
-                nearLength: 55,
-                farLength: 70,
-                location: RibbonLocation.topStart,
-                color: pink,
-                title: 'Recommended',
-                titleStyle: TextStyle(
-                  fontSize: 10,
-                ),
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.34),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      image: DecorationImage(
-                        image: NetworkImage('${rposter}'),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            Color.fromRGBO(0, 0, 0, 0.8),
-                            Color.fromRGBO(0, 0, 0, 1),
-                          ],
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: 5,
-                              ),
-                              child: Text(
-                                '${rtitle}',
-                                softWrap: true, //перенос строки
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
-                                  color: pink,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: 5, top: 3, bottom: 3),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '(${ryear})',
-                                softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
-              ),
-            ),
-          ],
-        ),
-      );
+      if (_listmovie.length < 3) {
+        return Padding(
+          padding: EdgeInsets.only(left: 5, top:20, right: 5, bottom: 5),
+          child: Container(
+            child: recomendet(),
+          ),
+        );
+      } else {
+        return Center(
+          child: GridView.count(
+            crossAxisCount: 2,
+            controller: ScrollController(keepScrollOffset: false),
+            childAspectRatio: 0.66, // size, standart = 1.0
+            children: <Widget>[
+              movieCard(index[0]),
+              movieCard(index[1]),
+              movieCard(index[2]),
+              recomendet(),
+            ],
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+      backgroundColor: provider.backgroundColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light, // white status bar ios
+        value: provider.statusbar, // white status bar ios
         child: Column(
           children: <Widget>[
             Expanded(

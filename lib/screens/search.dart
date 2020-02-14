@@ -72,6 +72,8 @@ class _SearchFState extends State<SearchF> {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(5.0)),
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -92,7 +94,7 @@ class _SearchFState extends State<SearchF> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: EdgeInsets.only(
-                            left: 5,
+                            left: 5, 
                           ),
                           child: Text(
                             '$title',
@@ -106,7 +108,7 @@ class _SearchFState extends State<SearchF> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 5, top: 3, bottom: 3),
+                        padding: EdgeInsets.only(left: 5, top: 3, bottom: 10),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -130,12 +132,12 @@ class _SearchFState extends State<SearchF> {
   }
 
   Widget _showDatePicker() {
+    final provider = Provider.of<GlobalProvider>(context);
     return Container(
-      color: Colors.white,
       height: 50,
       width: 50,
       child: CupertinoPicker(
-        backgroundColor: Colors.black,
+        backgroundColor: provider.backgroundColor,
         itemExtent: 25, //height of each item
         looping: true,
         scrollController: FixedExtentScrollController(initialItem: 70),
@@ -153,7 +155,7 @@ class _SearchFState extends State<SearchF> {
             child: Text(
               '${index + 1950}',
               style: TextStyle(
-                color: Colors.white,
+                color: provider.textColor,
                 fontSize: 15,
               ),
             ),
@@ -165,11 +167,12 @@ class _SearchFState extends State<SearchF> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalProvider>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false, //keyboard top !!!
-      backgroundColor: Colors.black,
+      backgroundColor: provider.backgroundColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light, // white status bar ios
+        value: provider.statusbar, // white status bar ios
         child: Column(
           children: <Widget>[
             Top(),
@@ -184,7 +187,7 @@ class _SearchFState extends State<SearchF> {
                         Center(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: provider.backgroundColor,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(color: pink, width: 1),
                             ),
@@ -198,7 +201,7 @@ class _SearchFState extends State<SearchF> {
                                       child: Form(
                                         key: _formKey,
                                         child: TextFormField(
-                                          cursorColor: Colors.white,
+                                          cursorColor: provider.textColor,
                                           enableInteractiveSelection: false,
                                           textInputAction: TextInputAction
                                               .done, //keyboard button type
@@ -217,7 +220,7 @@ class _SearchFState extends State<SearchF> {
                                           },
                                           style: TextStyle(
                                             fontSize: 19,
-                                            color: pink,
+                                            color: provider.textColor,
                                             fontWeight: FontWeight.bold,
                                           ),
                                           validator: (value) {

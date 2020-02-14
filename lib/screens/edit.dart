@@ -30,7 +30,7 @@ class _EditState extends State<Edit> {
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(255, 255, 255, 1),
+                  color: provider.textColor,
                 ),
               ),
             ),
@@ -41,7 +41,7 @@ class _EditState extends State<Edit> {
               child: Padding(
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: CupertinoPicker(
-                  backgroundColor: Colors.black,
+                  backgroundColor: provider.backgroundColor,
                   looping: true,
                   useMagnifier: true,
                   itemExtent: 30, //height of each item
@@ -60,7 +60,7 @@ class _EditState extends State<Edit> {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          color: provider.textColor,
                         ),
                       ),
                     ),
@@ -70,7 +70,7 @@ class _EditState extends State<Edit> {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          color: provider.textColor,
                         ),
                       ),
                     ),
@@ -80,7 +80,7 @@ class _EditState extends State<Edit> {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          color: provider.textColor,
                         ),
                       ),
                     ),
@@ -97,7 +97,7 @@ class _EditState extends State<Edit> {
   Widget pickerRating() {
     final provider = Provider.of<GlobalProvider>(context);
     FavoriteMovie movie = provider.getEditMovie;
-    
+
     return Container(
       child: Row(
         children: <Widget>[
@@ -109,7 +109,7 @@ class _EditState extends State<Edit> {
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(255, 255, 255, 1),
+                  color: provider.textColor,
                 ),
               ),
             ),
@@ -120,17 +120,19 @@ class _EditState extends State<Edit> {
               padding: EdgeInsets.only(right: 5, left: 5),
               child: Center(
                 child: CupertinoPicker(
-                  backgroundColor: Colors.black,
+                  backgroundColor: provider.backgroundColor,
                   itemExtent: 30, //height of each item
                   looping: true,
                   useMagnifier: true,
-                  scrollController:
-                      FixedExtentScrollController(initialItem: movie.rating - 1 ),
+                  scrollController: FixedExtentScrollController(
+                      initialItem: movie.rating - 1),
                   onSelectedItemChanged: (int index) {
                     int r = index;
-                    setState(() {
-                      movie.rating = r + 1;
-                    });
+                    setState(
+                      () {
+                        movie.rating = r + 1;
+                      },
+                    );
                     print('Rating ${movie.rating}');
                   },
                   children: List<Widget>.generate(
@@ -142,7 +144,7 @@ class _EditState extends State<Edit> {
                           style: TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(255, 255, 255, 1),
+                            color: provider.textColor,
                           ),
                         ),
                       );
@@ -161,15 +163,15 @@ class _EditState extends State<Edit> {
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalProvider>(context);
     FavoriteMovie movie = provider.getEditMovie;
-    
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      resizeToAvoidBottomPadding: false, //keyboard top !!!
+      backgroundColor: provider.backgroundColor,
       body: Column(
         children: <Widget>[
           Top(),
           Expanded(
             child: Container(
-                //color: Colors.white,
                 child: Column(
               children: <Widget>[
                 Row(
@@ -183,7 +185,6 @@ class _EditState extends State<Edit> {
                         height: 296,
                         width: 200,
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 255, 255, 0.34),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           image: DecorationImage(
                             image: NetworkImage('${movie.poster}'),
@@ -234,7 +235,7 @@ class _EditState extends State<Edit> {
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  color: provider.textColor,
                                 ),
                               ),
                             ),
@@ -243,26 +244,33 @@ class _EditState extends State<Edit> {
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.black,
+                                    color: provider.backgroundColor,
                                     borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: pink, width: 2),
+                                    border: Border.all(color: pink, width: 1),
                                   ),
-                                  child: SwitchListTile(
-                                    title: Text(
-                                      'Viewed',
-                                      style: TextStyle(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                    value: movie.viewed,
-                                    inactiveTrackColor: Colors.white,
-                                    activeColor: pink,
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        movie.viewed = value;
-                                      });
-                                    },
+                                  child: MergeSemantics(
+                                    child: ListTile(
+                                        title: Text(
+                                          'Viewed',
+                                          style: TextStyle(
+                                              fontSize: 19,
+                                              fontWeight: FontWeight.bold,
+                                              color: provider.textColor),
+                                        ),
+                                        trailing: CupertinoSwitch(
+                                          activeColor: pink,
+                                          value: movie.viewed,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              movie.viewed = value;
+                                            });
+                                          },
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            movie.viewed = !movie.viewed;
+                                          });
+                                        }),
                                   ),
                                 ),
                               ),
@@ -277,7 +285,7 @@ class _EditState extends State<Edit> {
                   padding: EdgeInsets.only(top: 10, left: 10, right: 10),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: provider.backgroundColor,
                       borderRadius: BorderRadius.circular(5),
                       border: Border.all(color: pink, width: 1),
                     ),
@@ -286,13 +294,13 @@ class _EditState extends State<Edit> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 5, right: 5),
+                            padding: EdgeInsets.only(left: 5, right: 5),
                             child: Text(
                               'Label: ',
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(255, 255, 255, 1),
+                                color: provider.textColor,
                               ),
                             ),
                           ),
@@ -302,7 +310,7 @@ class _EditState extends State<Edit> {
                             child: Form(
                               key: labelKey,
                               child: TextFormField(
-                                cursorColor: Colors.white,
+                                cursorColor: provider.textColor,
                                 enableInteractiveSelection: false,
                                 textInputAction:
                                     TextInputAction.done, //keyboard button type
@@ -319,18 +327,18 @@ class _EditState extends State<Edit> {
                                 },
                                 style: TextStyle(
                                   fontSize: 19,
-                                  color: Colors.white,
+                                  color: provider.textColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) return null;
                                 },
                                 initialValue: movie.label,
-                                
+
                                 onSaved: (value) {
-                                 setState(() {
-                                   movie.label = value;
-                                 });
+                                  setState(() {
+                                    movie.label = value;
+                                  });
                                 },
                               ),
                             ),
@@ -350,9 +358,9 @@ class _EditState extends State<Edit> {
                         child: Container(
                           child: pickerPriority(),
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: provider.backgroundColor,
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: pink, width: 2),
+                            border: Border.all(color: pink, width: 1),
                           ),
                         ),
                       )),
@@ -363,9 +371,9 @@ class _EditState extends State<Edit> {
                         child: Container(
                           child: pickerRating(),
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: provider.backgroundColor,
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: pink, width: 2),
+                            border: Border.all(color: pink, width: 1),
                           ),
                         ),
                       )),
@@ -402,17 +410,17 @@ class _EditState extends State<Edit> {
                         onPressed: () {
                           labelKey.currentState.save();
                           PutEditMovie(
-                            movie.id,
-                            movie.title,
-                            movie.year,
-                            movie.poster,
-                            movie.label,
-                            movie.priority,
-                            movie.viewed,
-                            movie.rating,
-                            movie.timestamp,
-                            provider.getToken
-                          ).putEditMovie();
+                                  movie.id,
+                                  movie.title,
+                                  movie.year,
+                                  movie.poster,
+                                  movie.label,
+                                  movie.priority,
+                                  movie.viewed,
+                                  movie.rating,
+                                  movie.timestamp,
+                                  provider.getToken)
+                              .putEditMovie();
                           Navigator.pushNamed(context, '/favorite');
                         },
                       ),
@@ -453,3 +461,21 @@ class _EditState extends State<Edit> {
     );
   }
 }
+
+/* SwitchListTile(
+                                    title: Text(
+                                      'Viewed',
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold,
+                                          color: provider.textColor),
+                                    ),
+                                    value: movie.viewed,
+                                    inactiveTrackColor: provider.textColor,
+                                    activeColor: pink,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        movie.viewed = value;
+                                      });
+                                    },
+                                  ), */

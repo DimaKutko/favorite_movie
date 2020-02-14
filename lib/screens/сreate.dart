@@ -3,6 +3,7 @@ import 'package:favorite_movie/routes/navigatioBottom.dart';
 import 'package:favorite_movie/service/favoriteMovieAdd.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class Create extends StatefulWidget {
@@ -20,6 +21,7 @@ class _CreateState extends State<Create> {
   int priority = 1, rating = 1;
 
   Widget pickerPriority() {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
     return Container(
       child: Row(
         children: <Widget>[
@@ -31,7 +33,7 @@ class _CreateState extends State<Create> {
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(255, 255, 255, 1),
+                  color: provider.textColor,
                 ),
               ),
             ),
@@ -42,7 +44,7 @@ class _CreateState extends State<Create> {
               child: Padding(
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: CupertinoPicker(
-                  backgroundColor: Colors.black,
+                  backgroundColor: provider.backgroundColor,
                   looping: true,
                   useMagnifier: true,
                   itemExtent: 30, //height of each item
@@ -61,7 +63,7 @@ class _CreateState extends State<Create> {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          color: provider.textColor,
                         ),
                       ),
                     ),
@@ -71,7 +73,7 @@ class _CreateState extends State<Create> {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          color: provider.textColor,
                         ),
                       ),
                     ),
@@ -81,7 +83,7 @@ class _CreateState extends State<Create> {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          color: provider.textColor,
                         ),
                       ),
                     ),
@@ -96,6 +98,7 @@ class _CreateState extends State<Create> {
   }
 
   Widget pickerRating() {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
     return Container(
       child: Row(
         children: <Widget>[
@@ -107,7 +110,7 @@ class _CreateState extends State<Create> {
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(255, 255, 255, 1),
+                  color: provider.textColor,
                 ),
               ),
             ),
@@ -118,7 +121,7 @@ class _CreateState extends State<Create> {
               padding: EdgeInsets.only(right: 5, left: 5),
               child: Center(
                 child: CupertinoPicker(
-                  backgroundColor: Colors.black,
+                  backgroundColor: provider.backgroundColor,
                   itemExtent: 30, //height of each item
                   looping: true,
                   useMagnifier: true,
@@ -138,7 +141,7 @@ class _CreateState extends State<Create> {
                           style: TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(255, 255, 255, 1),
+                            color: provider.textColor,
                           ),
                         ),
                       );
@@ -162,291 +165,290 @@ class _CreateState extends State<Create> {
         poster = movie.poster,
         imdbid = movie.imdbid;
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: <Widget>[
-          Top(),
-          Expanded(
-            child: Container(
-                //color: Colors.white,
-                child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 10,
-                        top: 10,
-                      ),
-                      child: Container(
-                        height: 296,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 255, 255, 0.34),
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                          image: DecorationImage(
-                            image: NetworkImage('$poster'),
-                            fit: BoxFit.fill,
-                          ),
+      backgroundColor: provider.backgroundColor,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: provider.statusbar, // white status bar ios
+        child: Column(
+          children: <Widget>[
+            Top(),
+            Expanded(
+              child: Container(
+                  child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                          top: 10,
                         ),
                         child: Container(
+                          height: 296,
+                          width: 200,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color.fromRGBO(0, 0, 0, 0.2),
-                                Color.fromRGBO(0, 0, 0, 0.2),
-                              ],
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            image: DecorationImage(
+                              image: NetworkImage('$poster'),
+                              fit: BoxFit.fill,
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 5, top: 10),
-                      child: Container(
-                        height: 296,
-                        width: 186,
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '$title',
-                                softWrap: true, //перенос строки
-                                style: TextStyle(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.bold,
-                                  color: pink,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '($year)',
-                                softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: pink, width: 1),
-                                  ),
-                                  child: SwitchListTile(
-                                    title: Text(
-                                      'Viewed',
-                                      style: TextStyle(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                    value: viewed,
-                                    inactiveTrackColor: Colors.white,
-                                    activeColor: pink,
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        viewed = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: pink, width: 2),
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 5, right: 5),
-                            child: Text(
-                              'Label: ',
-                              style: TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
                           child: Container(
-                            child: Form(
-                              key: labelKey,
-                              child: TextFormField(
-                                cursorColor: Colors.white,
-                                enableInteractiveSelection: false,
-                                textInputAction:
-                                    TextInputAction.done, //keyboard button type
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration.collapsed(
-                                  border: InputBorder.none,
-                                  hintText: null,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color.fromRGBO(0, 0, 0, 0.2),
+                                  Color.fromRGBO(0, 0, 0, 0.2),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5, top: 10),
+                        child: Container(
+                          height: 296,
+                          width: 186,
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '$title',
+                                  softWrap: true, //перенос строки
+                                  style: TextStyle(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.bold,
+                                    color: pink,
+                                  ),
                                 ),
-                                onFieldSubmitted: (term) {
-                                  setState(() {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                  });
-                                },
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  '($year)',
+                                  softWrap: true,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: provider.textColor,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: provider.backgroundColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(color: pink, width: 1),
+                                    ),
+                                    child: MergeSemantics(
+                                      child: ListTile(
+                                          title: Text(
+                                            'Viewed',
+                                            style: TextStyle(
+                                                fontSize: 19,
+                                                fontWeight: FontWeight.bold,
+                                                color: provider.textColor),
+                                          ),
+                                          trailing: CupertinoSwitch(
+                                            activeColor: pink,
+                                            value: viewed,
+                                            onChanged: (bool value) {
+                                              setState(() {
+                                                viewed = value;
+                                              });
+                                            },
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              viewed = !viewed;
+                                            });
+                                          }),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: provider.backgroundColor,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: pink, width: 1),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5, right: 5),
+                              child: Text(
+                                'Label: ',
                                 style: TextStyle(
                                   fontSize: 19,
-                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
+                                  color: provider.textColor,
                                 ),
-                                validator: (value) {
-                                  if (value.isEmpty) return null;
-                                },
-                                onSaved: (value) {
-                                  if (value != "") {
-                                    label = value;
-                                  } else {
-                                    label = "pppqqqyyy";
-                                  }
-                                },
                               ),
                             ),
                           ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              child: Form(
+                                key: labelKey,
+                                child: TextFormField(
+                                  cursorColor: provider.textColor,
+                                  enableInteractiveSelection: false,
+                                  textInputAction: TextInputAction
+                                      .done, //keyboard button type
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration.collapsed(
+                                    border: InputBorder.none,
+                                    hintText: null,
+                                  ),
+                                  onFieldSubmitted: (term) {
+                                    setState(() {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                    });
+                                  },
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: provider.textColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  validator: (value) {
+                                    if (value.isEmpty) return null;
+                                  },
+                                  onSaved: (value) {
+                                    setState(() {
+                                      label = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10, bottom: 10, top: 10, right: 5),
+                          child: Container(
+                            child: pickerPriority(),
+                            decoration: BoxDecoration(
+                              color: provider.backgroundColor,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: pink, width: 1),
+                            ),
+                          ),
+                        )),
+                        Expanded(
+                            child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 5, bottom: 10, top: 10, right: 10),
+                          child: Container(
+                            child: pickerRating(),
+                            decoration: BoxDecoration(
+                              color: provider.backgroundColor,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: pink, width: 1),
+                            ),
+                          ),
+                        )),
                       ],
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                          child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 10, bottom: 10, top: 10, right: 5),
-                        child: Container(
-                          child: pickerPriority(),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: pink, width: 2),
-                          ),
-                        ),
-                      )),
-                      Expanded(
-                          child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 5, bottom: 10, top: 10, right: 10),
-                        child: Container(
-                          child: pickerRating(),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: pink, width: 2),
-                          ),
-                        ),
-                      )),
-                    ],
-                  ),
-                ),
-              ],
-            )),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 15, bottom: 10, top: 5, right: 15),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      height: 40,
-                      child: RaisedButton(
-                        color: grey,
-                        child: Text(
-                          "Add",
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold,
-                              color: pink),
-                        ),
-                        onPressed: () {
-                          labelKey.currentState.save(); //childhood
-                          FavoriteAddMovie(
-                            imdbid,
-                            title,
-                            year,
-                            poster,
-                            label,
-                            priority,
-                            viewed,
-                            rating,
-                            provider.getToken
-                          ).favoriteAddMovie();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 15, bottom: 10, right: 15, top: 5),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      height: 40,
-                      child: RaisedButton(
-                        color: grey,
-                        child: Text(
-                          "Exit",
-                          style: TextStyle(
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold,
-                              color: pink),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ),
-                )
-              ],
+                ],
+              )),
             ),
-          )
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 15, bottom: 10, top: 5, right: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        height: 40,
+                        child: RaisedButton(
+                          color: grey,
+                          child: Text(
+                            "Add",
+                            style: TextStyle(
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold,
+                                color: pink),
+                          ),
+                          onPressed: () {
+                            labelKey.currentState.save(); //childhood
+                            FavoriteAddMovie(imdbid, title, year, poster, label,
+                                    priority, viewed, rating, provider.getToken)
+                                .favoriteAddMovie();
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 15, bottom: 10, right: 15, top: 5),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        height: 40,
+                        child: RaisedButton(
+                          color: grey,
+                          child: Text(
+                            "Exit",
+                            style: TextStyle(
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold,
+                                color: pink),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
