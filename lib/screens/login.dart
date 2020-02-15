@@ -1,8 +1,9 @@
 import 'package:favorite_movie/models/GlobalProvider.dart';
-import 'package:favorite_movie/screens/favorite.dart';
+import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,6 +17,13 @@ class _LoginState extends State<Login> {
   final _login = GlobalKey<FormState>();
   final _passwd = GlobalKey<FormState>();
   String passwd;
+
+  setToken(String value) async {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
+    final data = await SharedPreferences.getInstance();
+    data.setString('token', value);
+    provider.setToken = data.get('token');
+  }
 
   @override
   Widget _buildData() {
@@ -115,7 +123,7 @@ class _LoginState extends State<Login> {
                           },
                           onSaved: (value) {
                             setState(() {
-                              provider.setToken = value;
+                              setToken(value);
                             });
                           },
                         ),
@@ -220,7 +228,7 @@ class _LoginState extends State<Login> {
         ],
       );
     } else {
-      return Favorite();
+      return Dashboard();
     }
   }
 

@@ -165,13 +165,13 @@ class _FavoriteState extends State<Favorite> {
                   background: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color.fromRGBO(39, 58, 58, 1), width: 2),
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          color: pink, width: 1),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     ),
                     child: Icon(
                       Icons.cancel,
-                      size: 23,
-                      color: Colors.black,
+                      size: 40,
+                      color: pink,
                     ),
                   ),
                   child: Column(

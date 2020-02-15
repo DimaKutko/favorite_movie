@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:favorite_movie/models/GlobalProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Color white = Color.fromRGBO(255, 255, 255, 1);
 
   startTime() async {
-    var _duration = new Duration(seconds: 4);
+    var _duration = new Duration(seconds: 2);
     return new Timer(_duration, navigationPage);
   }
 
@@ -22,9 +25,21 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  getToken() async {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
+    final data = await SharedPreferences.getInstance();
+    final _token = data.getString('token') ?? null;
+    final theme = data.getBool('theme') ?? null;
+    final recommendation = data.getBool('recommendation') ?? null;
+    provider.setToken = _token;
+    provider.setThemColor = theme;
+    provider.recommendation = recommendation;
+  }
+
   @override
   void initState() {
     super.initState();
+    getToken();
     startTime();
   }
 

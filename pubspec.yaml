@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   
+  shared_preferences: ^0.5.6+1
   ribbon: ^0.0.1
   http: ^0.12.0+2
   splashscreen: ^1.2.0

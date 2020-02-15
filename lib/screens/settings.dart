@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -18,13 +19,37 @@ class _SettingsState extends State<Settings> {
     super.initState();
   }
 
+  setToken() async {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
+    final data = await SharedPreferences.getInstance();
+    data.setString('token', null);
+    data.setBool('theme', false);
+    data.setBool('recommendation', true);
+    provider.setToken = null;
+  }
+
+  setTheme(bool value) async {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
+    final data = await SharedPreferences.getInstance();
+    data.setBool('theme', value);
+    provider.setThemColor = value;
+  }
+
+  setRecommendation(bool value) async {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
+    final data = await SharedPreferences.getInstance();
+    data.setBool('recommendation', value);
+    provider.recommendation = value;
+  }
+
+
+
   @override
   Widget _build() {
     final provider = Provider.of<GlobalProvider>(context);
     provider.settingsSetColor();
 
     return Column(
-
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Top(),
@@ -37,22 +62,57 @@ class _SettingsState extends State<Settings> {
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
             child: Center(
-              child: SwitchListTile(
-                title: Text(
-                  'Light theme',
-                  style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold,
-                      color: provider.textColor),
+              child: MergeSemantics(
+                child: ListTile(
+                  title: Text(
+                    'Light theme',
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: provider.textColor),
+                  ),
+                  trailing: CupertinoSwitch(
+                    activeColor: pink,
+                    value: provider.getThemColor,
+                    onChanged: (bool value) {
+                      setState(() {
+                        setTheme(value);
+                      });
+                    },
+                  ),
                 ),
-                inactiveTrackColor: provider.textColor,
-                activeColor: pink,
-                value: provider.getThemColor,
-                onChanged: (bool value) {
-                  setState(() {
-                    provider.setThemColor = value;
-                  });
-                },
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: pink, width: 1),
+              color: provider.backgroundColor,
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            ),
+            child: Center(
+              child: MergeSemantics(
+                child: ListTile(
+                  title: Text(
+                    'Recommendation',
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: provider.textColor),
+                  ),
+                  trailing: CupertinoSwitch(
+                    activeColor: pink,
+                    value: provider.recommendation,
+                    onChanged: (bool value) {
+                      setState(() {
+                        setRecommendation(value);
+                      });
+                    },
+                  ),
+                ),
               ),
             ),
           ),
@@ -68,12 +128,12 @@ class _SettingsState extends State<Settings> {
             child: RaisedButton(
               color: grey,
               child: Text(
-                "Logout",
+                "Sign out",
                 style: TextStyle(
                     fontSize: 21, fontWeight: FontWeight.bold, color: pink),
               ),
               onPressed: () {
-                provider.setToken = null;
+                setToken();
                 Navigator.pushNamed(context, '/login');
               },
             ),

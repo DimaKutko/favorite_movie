@@ -17,7 +17,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   Color pink = Color.fromRGBO(236, 37, 65, 1);
-  List<int> index = [0, 1, 2];
+  List<int> index = [0, 1, 2, 3];
   String rposter;
   String rtitle, ryear;
   List<FavoriteMovie> _listmovie;
@@ -261,27 +261,43 @@ class _DashboardState extends State<Dashboard> {
         ),
       );
     } else {
-      if (_listmovie.length < 3) {
+      if (_listmovie.length < 4) {
         return Padding(
-          padding: EdgeInsets.only(left: 5, top:20, right: 5, bottom: 5),
+          padding: EdgeInsets.only(left: 5, top: 20, right: 5, bottom: 5),
           child: Container(
             child: recomendet(),
           ),
         );
       } else {
-        return Center(
-          child: GridView.count(
-            crossAxisCount: 2,
-            controller: ScrollController(keepScrollOffset: false),
-            childAspectRatio: 0.66, // size, standart = 1.0
-            children: <Widget>[
-              movieCard(index[0]),
-              movieCard(index[1]),
-              movieCard(index[2]),
-              recomendet(),
-            ],
-          ),
-        );
+        if (provider.recommendation) {
+          return Center(
+            child: GridView.count(
+              crossAxisCount: 2,
+              controller: ScrollController(keepScrollOffset: false),
+              childAspectRatio: 0.66, // size, standart = 1.0
+              children: <Widget>[
+                movieCard(index[0]),
+                movieCard(index[1]),
+                movieCard(index[2]),
+                recomendet(),
+              ],
+            ),
+          );
+        } else {
+          return Center(
+            child: GridView.count(
+              crossAxisCount: 2,
+              controller: ScrollController(keepScrollOffset: false),
+              childAspectRatio: 0.66, // size, standart = 1.0
+              children: <Widget>[
+                movieCard(index[0]),
+                movieCard(index[1]),
+                movieCard(index[2]),
+                movieCard(index[3]),
+              ],
+            ),
+          );
+        }
       }
     }
   }

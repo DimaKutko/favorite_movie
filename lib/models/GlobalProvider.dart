@@ -13,7 +13,7 @@ class GlobalProvider with ChangeNotifier {
       textColor,
       buttonColor;
 
-  bool _them = false;
+  bool _them, _recommendation;
   Color white = Colors.white;
   Color black = Colors.black;
   Color pink = Color.fromRGBO(236, 37, 65, 1);
@@ -44,6 +44,13 @@ class GlobalProvider with ChangeNotifier {
 
   set setaddMovie(var value) {
     _add = value;
+    notifyListeners();
+  }
+
+  get recommendation => _recommendation;
+
+  set recommendation(bool value) {
+    _recommendation = value;
     notifyListeners();
   }
 
