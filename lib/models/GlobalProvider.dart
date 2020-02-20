@@ -13,12 +13,19 @@ class GlobalProvider with ChangeNotifier {
       textColor,
       buttonColor;
 
-  bool _them, _recommendation;
+  bool _them, _recommendation, _recommendetfavorite;
   Color white = Colors.white;
   Color black = Colors.black;
   Color pink = Color.fromRGBO(236, 37, 65, 1);
   Color grey = Color.fromRGBO(127, 127, 145, 0.5);
   SystemUiOverlayStyle statusbar;
+
+  get recommendetfavorite => _recommendetfavorite;
+
+  set recommendetfavorite(bool value) {
+    _recommendetfavorite = value;
+    notifyListeners();
+  }
 
   get getThemColor => _them;
 

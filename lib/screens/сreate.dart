@@ -163,7 +163,7 @@ class _CreateState extends State<Create> {
     String title = movie.title,
         year = movie.year,
         poster = movie.poster,
-        imdbid = movie.imdbid;
+        id = movie.id;
     return Scaffold(
       backgroundColor: provider.backgroundColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -409,7 +409,7 @@ class _CreateState extends State<Create> {
                           ),
                           onPressed: () {
                             labelKey.currentState.save(); //childhood
-                            FavoriteAddMovie(imdbid, title, year, poster, label,
+                            FavoriteAddMovie(id, title, year, poster, label,
                                     priority, viewed, rating, provider.getToken)
                                 .favoriteAddMovie();
                             Navigator.pop(context);

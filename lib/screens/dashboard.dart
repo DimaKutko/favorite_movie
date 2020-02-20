@@ -21,8 +21,10 @@ class _DashboardState extends State<Dashboard> {
   String rposter;
   String rtitle, ryear;
   List<FavoriteMovie> _listmovie;
+  var recomended;
 
   getListMovie(String token) async {
+    final provider = Provider.of<GlobalProvider>(context, listen: false);
     final listmovie = await ListMovie(token).getFavoriteMovie();
     _listmovie = listmovie;
 
@@ -59,22 +61,42 @@ class _DashboardState extends State<Dashboard> {
         }
       }
 
-      //movies are not repeated in the dashboard
-      do {
-        final _recomended = await RecomendedIml().getrecomended();
-        rposter = jsonDecode(jsonEncode(_recomended.poster));
-        rtitle = jsonDecode(jsonEncode(_recomended.title));
-        ryear = jsonDecode(jsonEncode(_recomended.year));
-        check = false;
-        for (int i = 0; i < 3; i++) {
-          if (_listmovie[i].title == rtitle) {
-            print("Coppy");
-            check = true;
+      if (provider.recommendetfavorite) {
+        //Disable recommendations from the movie list on this page
+        do {
+          final _recomended = await RecomendedIml().getrecomended();
+          recomended = _recomended;
+          rposter = jsonDecode(jsonEncode(_recomended.poster));
+          rtitle = jsonDecode(jsonEncode(_recomended.title));
+          ryear = jsonDecode(jsonEncode(_recomended.year));
+          check = false;
+          for (int i = 0; i < 3; i++) {
+            if (_listmovie[i].title == rtitle) {
+              print("Coppy");
+              check = true;
+            }
           }
-        }
-      } while (check);
+        } while (check);
+      } else {
+        //Turn off recommendations from added movies to favorites
+        do {
+          final _recomended = await RecomendedIml().getrecomended();
+          recomended = _recomended;
+          rposter = jsonDecode(jsonEncode(_recomended.poster));
+          rtitle = jsonDecode(jsonEncode(_recomended.title));
+          ryear = jsonDecode(jsonEncode(_recomended.year));
+          check = false;
+          for (int i = 0; i < long; i++) {
+            if (_listmovie[i].title == rtitle) {
+              print("Coppy");
+              check = true;
+            }
+          }
+        } while (check);
+      }
     } else {
       final _recomended = await RecomendedIml().getrecomended();
+      recomended = _recomended;
       rposter = jsonDecode(jsonEncode(_recomended.poster));
       rtitle = jsonDecode(jsonEncode(_recomended.title));
       ryear = jsonDecode(jsonEncode(_recomended.year));
@@ -92,81 +114,91 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget recomendet() {
-    return Padding(
-      padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-      child: Ribbon(
-        nearLength: 55,
-        farLength: 70,
-        location: RibbonLocation.topStart,
-        color: pink,
-        title: 'Recommended',
-        titleStyle: TextStyle(
-          fontSize: 10,
-        ),
-        child: Container(
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.34),
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              image: DecorationImage(
-                image: NetworkImage('${rposter}'),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Container(
+    final provider = Provider.of<GlobalProvider>(context);
+    return GestureDetector(
+      onTap: () {
+        provider.setaddMovie = recomended;
+        Navigator.pushNamed(
+          context,
+          '/create',
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+        child: Ribbon(
+          nearLength: 55,
+          farLength: 70,
+          location: RibbonLocation.topStart,
+          color: pink,
+          title: 'Recommended',
+          titleStyle: TextStyle(
+            fontSize: 10,
+          ),
+          child: Container(
               decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(5.0)),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color.fromRGBO(0, 0, 0, 0.2),
-                    Color.fromRGBO(0, 0, 0, 0.2),
-                    Color.fromRGBO(0, 0, 0, 0.2),
-                    Color.fromRGBO(0, 0, 0, 0.2),
-                    Color.fromRGBO(0, 0, 0, 0.8),
-                    Color.fromRGBO(0, 0, 0, 1),
-                  ],
+                color: Color.fromRGBO(255, 255, 255, 0.34),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                image: DecorationImage(
+                  image: NetworkImage('${rposter}'),
+                  fit: BoxFit.fill,
                 ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: 5,
-                      ),
-                      child: Text(
-                        '${rtitle}',
-                        softWrap: true, //перенос строки
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          color: pink,
-                        ),
-                      ),
-                    ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(5.0)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(0, 0, 0, 0.2),
+                      Color.fromRGBO(0, 0, 0, 0.2),
+                      Color.fromRGBO(0, 0, 0, 0.2),
+                      Color.fromRGBO(0, 0, 0, 0.2),
+                      Color.fromRGBO(0, 0, 0, 0.8),
+                      Color.fromRGBO(0, 0, 0, 1),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 5, top: 3, bottom: 5),
-                    child: Align(
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        '(${ryear})',
-                        softWrap: true,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 5,
+                        ),
+                        child: Text(
+                          '${rtitle}',
+                          softWrap: true, //перенос строки
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            color: pink,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 5, top: 3, bottom: 5),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '(${ryear})',
+                          softWrap: true,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        ),
       ),
     );
   }
