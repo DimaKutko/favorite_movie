@@ -31,7 +31,7 @@ class _CreateState extends State<Create> {
               child: Text(
                 'Priority:',
                 style: TextStyle(
-                  fontSize: 19,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: provider.textColor,
                 ),
@@ -61,7 +61,7 @@ class _CreateState extends State<Create> {
                       child: Text(
                         'High',
                         style: TextStyle(
-                          fontSize: 19,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: provider.textColor,
                         ),
@@ -71,7 +71,7 @@ class _CreateState extends State<Create> {
                       child: Text(
                         'Medium',
                         style: TextStyle(
-                          fontSize: 19,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: provider.textColor,
                         ),
@@ -81,7 +81,7 @@ class _CreateState extends State<Create> {
                       child: Text(
                         'Low',
                         style: TextStyle(
-                          fontSize: 19,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: provider.textColor,
                         ),
@@ -108,7 +108,7 @@ class _CreateState extends State<Create> {
               child: Text(
                 'Rating:',
                 style: TextStyle(
-                  fontSize: 19,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: provider.textColor,
                 ),
@@ -139,7 +139,7 @@ class _CreateState extends State<Create> {
                         child: Text(
                           '${index + 1}',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: provider.textColor,
                           ),
@@ -166,6 +166,7 @@ class _CreateState extends State<Create> {
         id = movie.id;
     return Scaffold(
       backgroundColor: provider.backgroundColor,
+      resizeToAvoidBottomPadding: false,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: provider.statusbar, // white status bar ios
         child: Column(
@@ -173,106 +174,122 @@ class _CreateState extends State<Create> {
             Top(),
             Expanded(
               child: Container(
+                  width: double.infinity,
                   child: Column(
-                children: <Widget>[
-                  Row(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(
-                          left: 10,
-                          top: 10,
-                        ),
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                         child: Container(
                           height: 296,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                            image: DecorationImage(
-                              image: NetworkImage('$poster'),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromRGBO(0, 0, 0, 0.2),
-                                  Color.fromRGBO(0, 0, 0, 0.2),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5, top: 10),
-                        child: Container(
-                          height: 296,
-                          width: 186,
-                          child: Column(
+                          child: Row(
                             children: <Widget>[
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '$title',
-                                  softWrap: true, //перенос строки
-                                  style: TextStyle(
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: pink,
+                              Container(
+                                height: 296,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                  image: DecorationImage(
+                                    image: NetworkImage('$poster'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color.fromRGBO(0, 0, 0, 0.2),
+                                        Color.fromRGBO(0, 0, 0, 0.2),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                               SizedBox(
-                                height: 5,
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '($year)',
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: provider.textColor,
-                                  ),
-                                ),
+                                width: 5,
                               ),
                               Expanded(
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 5, top: 10),
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                      color: provider.backgroundColor,
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(color: pink, width: 1),
-                                    ),
-                                    child: MergeSemantics(
-                                      child: ListTile(
-                                          title: Text(
-                                            'Viewed',
+                                    //color: Colors.red,
+
+                                    child: Column(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '$title',
+                                            softWrap: true, //перенос строки
                                             style: TextStyle(
-                                                fontSize: 19,
-                                                fontWeight: FontWeight.bold,
-                                                color: provider.textColor),
+                                              fontSize: 23,
+                                              fontWeight: FontWeight.bold,
+                                              color: pink,
+                                            ),
                                           ),
-                                          trailing: CupertinoSwitch(
-                                            activeColor: pink,
-                                            value: viewed,
-                                            onChanged: (bool value) {
-                                              setState(() {
-                                                viewed = value;
-                                              });
-                                            },
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            '($year)',
+                                            softWrap: true,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: provider.textColor,
+                                            ),
                                           ),
-                                          onTap: () {
-                                            setState(() {
-                                              viewed = !viewed;
-                                            });
-                                          }),
+                                        ),
+                                        Expanded(
+                                          child: Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: provider.backgroundColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                border: Border.all(
+                                                    color: pink, width: 1),
+                                              ),
+                                              child: MergeSemantics(
+                                                child: ListTile(
+                                                    title: Text(
+                                                      'Viewed',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: provider
+                                                              .textColor),
+                                                    ),
+                                                    trailing: SizedBox(
+                                                      width: 30,
+                                                      child: CupertinoSwitch(
+                                                        activeColor: pink,
+                                                        value: viewed,
+                                                        onChanged:
+                                                            (bool value) {
+                                                          setState(() {
+                                                            viewed = value;
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      setState(() {
+                                                        viewed = !viewed;
+                                                      });
+                                                    }),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -280,108 +297,107 @@ class _CreateState extends State<Create> {
                             ],
                           ),
                         ),
-                      )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: provider.backgroundColor,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: pink, width: 1),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 5, right: 5),
+                                  child: Text(
+                                    'Label: ',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: provider.textColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: Form(
+                                    key: labelKey,
+                                    child: TextFormField(
+                                      cursorColor: provider.textColor,
+                                      enableInteractiveSelection: false,
+                                      textInputAction: TextInputAction
+                                          .done, //keyboard button type
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration.collapsed(
+                                        border: InputBorder.none,
+                                        hintText: null,
+                                      ),
+                                      onFieldSubmitted: (term) {
+                                        setState(() {
+                                          FocusScope.of(context)
+                                              .requestFocus(FocusNode());
+                                        });
+                                      },
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: provider.textColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      validator: (value) {
+                                        if (value.isEmpty) return null;
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          label = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                                child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10, bottom: 10, top: 10, right: 5),
+                              child: Container(
+                                child: pickerPriority(),
+                                decoration: BoxDecoration(
+                                  color: provider.backgroundColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(color: pink, width: 1),
+                                ),
+                              ),
+                            )),
+                            Expanded(
+                                child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 5, bottom: 10, top: 10, right: 10),
+                              child: Container(
+                                child: pickerRating(),
+                                decoration: BoxDecoration(
+                                  color: provider.backgroundColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(color: pink, width: 1),
+                                ),
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
                     ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: provider.backgroundColor,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: pink, width: 1),
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 5, right: 5),
-                              child: Text(
-                                'Label: ',
-                                style: TextStyle(
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
-                                  color: provider.textColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Form(
-                                key: labelKey,
-                                child: TextFormField(
-                                  cursorColor: provider.textColor,
-                                  enableInteractiveSelection: false,
-                                  textInputAction: TextInputAction
-                                      .done, //keyboard button type
-                                  keyboardType: TextInputType.text,
-                                  decoration: InputDecoration.collapsed(
-                                    border: InputBorder.none,
-                                    hintText: null,
-                                  ),
-                                  onFieldSubmitted: (term) {
-                                    setState(() {
-                                      FocusScope.of(context)
-                                          .requestFocus(FocusNode());
-                                    });
-                                  },
-                                  style: TextStyle(
-                                    fontSize: 19,
-                                    color: provider.textColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  validator: (value) {
-                                    if (value.isEmpty) return null;
-                                  },
-                                  onSaved: (value) {
-                                    setState(() {
-                                      label = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 10, bottom: 10, top: 10, right: 5),
-                          child: Container(
-                            child: pickerPriority(),
-                            decoration: BoxDecoration(
-                              color: provider.backgroundColor,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: pink, width: 1),
-                            ),
-                          ),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 5, bottom: 10, top: 10, right: 10),
-                          child: Container(
-                            child: pickerRating(),
-                            decoration: BoxDecoration(
-                              color: provider.backgroundColor,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: pink, width: 1),
-                            ),
-                          ),
-                        )),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
+                  )),
             ),
             Align(
               alignment: Alignment.bottomCenter,

@@ -29,9 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final provider = Provider.of<GlobalProvider>(context, listen: false);
     final data = await SharedPreferences.getInstance();
     final _token = data.getString('token') ?? null;
-    final theme = data.getBool('theme') ?? null;
-    final recommendetfavorite = data.getBool('recommendetfavorite') ?? null;
-    final recommendation = data.getBool('recommendation') ?? null;
+    final theme = data.getBool('theme') ?? false;
+    final recommendetfavorite = data.getBool('recommendetfavorite') ?? false;
+    final recommendation = data.getBool('recommendation') ?? true;
     provider.setToken = _token;
     provider.setThemColor = theme;
     provider.recommendation = recommendation;

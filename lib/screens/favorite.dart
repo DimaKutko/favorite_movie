@@ -162,16 +162,19 @@ class _FavoriteState extends State<Favorite> {
                       _listmovie.removeAt(index);
                     });
                   },
-                  background: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: pink, width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                    child: Icon(
-                      Icons.cancel,
-                      size: 40,
-                      color: pink,
+                  background: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: pink, width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
+                      child: Icon(
+                        Icons.cancel,
+                        size: 40,
+                        color: pink,
+                      ),
                     ),
                   ),
                   child: Column(

@@ -1,16 +1,16 @@
 class Movie {
   final String title;
   final String year;
-  final String imdbid;
+  final String id;
   final String poster;
 
-  Movie({this.title, this.year, this.imdbid, this.poster});
+  Movie({this.title, this.year, this.id, this.poster});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
       title: json['Title'],
       year: json['Year'],
-      imdbid: json['imdbID'],
+      id: json['imdbID'],
       poster: json['Poster'],
     );
   }
@@ -19,7 +19,7 @@ class Movie {
     return {
       'title': title,
       'year': year,
-      'imdbid': imdbid,
+      'imdbid': id,
       'poster': poster,
     };
   }

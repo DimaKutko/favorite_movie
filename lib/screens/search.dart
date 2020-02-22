@@ -33,7 +33,6 @@ class _SearchFState extends State<SearchF> {
 
       title = jsonDecode(jsonEncode(movie.title));
       year = jsonDecode(jsonEncode(movie.year));
-      imdbid = jsonDecode(jsonEncode(movie.imdbid));
       poster = jsonDecode(jsonEncode(movie.poster));
 
       setState(() {});
