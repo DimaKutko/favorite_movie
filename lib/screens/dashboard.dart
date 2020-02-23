@@ -1,8 +1,8 @@
-import 'package:favorite_movie/models/favoritemovie.dart';
-import 'package:favorite_movie/models/GlobalProvider.dart';
-import 'package:favorite_movie/routes/navigatioBottom.dart';
-import 'package:favorite_movie/service/getrecomended.dart';
-import 'package:favorite_movie/service/movielist.dart';
+import 'package:favorite_movie/models/favorite_movie.dart';
+import 'package:favorite_movie/models/global_provider.dart';
+import 'package:favorite_movie/routes/navigatio_bottom.dart';
+import 'package:favorite_movie/service/get_recomended.dart';
+import 'package:favorite_movie/service/movie_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -203,71 +203,83 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Widget movieCard(int indx) {
-    return Padding(
-      padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-      child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            image: DecorationImage(
-              image: NetworkImage('${_listmovie[indx].poster}'),
-              fit: BoxFit.fill,
-            ),
-          ),
-          child: Container(
+  Widget movieCard(int index) {
+    final provider = Provider.of<GlobalProvider>(context);
+
+    return GestureDetector(
+      onTap: () {
+                  provider.setEditMovie = _listmovie[index];
+                  Navigator.pushNamed(
+                    context,
+                    '/edit',
+                  );
+                },
+      child: Padding(
+        padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+        child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(5.0)),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromRGBO(0, 0, 0, 0.1),
-                  Color.fromRGBO(0, 0, 0, 0.2),
-                  Color.fromRGBO(0, 0, 0, 0.2),
-                  Color.fromRGBO(0, 0, 0, 0.2),
-                  Color.fromRGBO(0, 0, 0, 0.8),
-                  Color.fromRGBO(0, 0, 0, 1),
-                ],
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              image: DecorationImage(
+                image: NetworkImage('${_listmovie[index].poster}'),
+                fit: BoxFit.fill,
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: 5,
-                    ),
-                    child: Text(
-                      '${_listmovie[indx].title}',
-                      softWrap: true, //перенос строки
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        color: pink,
-                      ),
-                    ),
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(5.0)),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(0, 0, 0, 0.1),
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                    Color.fromRGBO(0, 0, 0, 0.2),
+                    Color.fromRGBO(0, 0, 0, 0.8),
+                    Color.fromRGBO(0, 0, 0, 1),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5, top: 3, bottom: 5),
-                  child: Align(
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      '(${_listmovie[indx].year})',
-                      softWrap: true,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(255, 255, 255, 1),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 5,
+                      ),
+                      child: Text(
+                        '${_listmovie[index].title}',
+                        softWrap: true, //перенос строки
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          color: pink,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5, top: 3, bottom: 5),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '(${_listmovie[index].year})',
+                        softWrap: true,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+      ),
     );
   }
 

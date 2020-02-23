@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:favorite_movie/models/GlobalProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:favorite_movie/models/global_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

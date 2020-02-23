@@ -1,5 +1,5 @@
-import 'package:favorite_movie/models/GlobalProvider.dart';
-import 'package:favorite_movie/routes/navigatioBottom.dart';
+import 'package:favorite_movie/models/global_provider.dart';
+import 'package:favorite_movie/routes/navigatio_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';

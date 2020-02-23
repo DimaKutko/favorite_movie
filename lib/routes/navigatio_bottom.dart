@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:favorite_movie/models/GlobalProvider.dart';
+import 'package:favorite_movie/models/global_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

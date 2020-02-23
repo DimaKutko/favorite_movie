@@ -1,8 +1,8 @@
-import 'package:favorite_movie/models/favoritemovie.dart';
-import 'package:favorite_movie/models/GlobalProvider.dart';
-import 'package:favorite_movie/routes/navigatioBottom.dart';
-import 'package:favorite_movie/service/movielist.dart';
-import 'package:favorite_movie/service/favotiteMovieDelete.dart';
+import 'package:favorite_movie/models/favorite_movie.dart';
+import 'package:favorite_movie/models/global_provider.dart';
+import 'package:favorite_movie/routes/navigatio_bottom.dart';
+import 'package:favorite_movie/service/favotite_movie_delete.dart';
+import 'package:favorite_movie/service/movie_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';

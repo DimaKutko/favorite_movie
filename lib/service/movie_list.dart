@@ -1,4 +1,4 @@
-import 'package:favorite_movie/models/favoritemovie.dart';
+import 'package:favorite_movie/models/favorite_movie.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 

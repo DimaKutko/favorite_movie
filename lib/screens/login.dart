@@ -1,4 +1,4 @@
-import 'package:favorite_movie/models/GlobalProvider.dart';
+import 'package:favorite_movie/models/global_provider.dart';
 import 'package:favorite_movie/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

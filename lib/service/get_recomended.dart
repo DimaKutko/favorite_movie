@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:favorite_movie/models/favoritemovie.dart';
+import 'package:favorite_movie/models/favorite_movie.dart';
 import 'package:http/http.dart' as http;
 
 abstract class Recomended {
