@@ -13,7 +13,7 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
-  Color pink = Color.fromRGBO(236, 37, 65, 1);
+  Color pink = Color.fromRGBO(236, 37, 653, 1);
   Color grey = Color.fromRGBO(21, 21, 23, 1);
   final labelKey = GlobalKey<FormState>();
 
